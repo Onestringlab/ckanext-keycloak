@@ -52,36 +52,36 @@ def sso():
         return tk.abort(500, "Error getting auth url: {}".format(e))
     return tk.redirect_to(auth_url)
 
-# def sso_login():
-#     data = tk.request.args
-#     token = client.get_token(data['code'], redirect_uri)
-#     userinfo = client.get_user_info(token)
-#     log.info("SSO Login: {}".format(userinfo))
-#     if userinfo:
-#         user_dict = {
-#             'name': helpers.ensure_unique_username_from_email(userinfo['preferred_username']),
-#             'email': userinfo['email'],
-#             'password': helpers.generate_password(),
-#             'fullname': userinfo['name'],
-#             'plugin_extras': {
-#                 'idp': 'google'
-#             }
-#         }
-#         context = {"model": model, "session": model.Session}
-#         g.user_obj = helpers.process_user(user_dict)
-#         g.user = g.user_obj.name
-#         context['user'] = g.user
-#         context['auth_user_obj'] = g.user_obj
+def sso_login():
+    data = tk.request.args
+    token = client.get_token(data['code'], redirect_uri)
+    userinfo = client.get_user_info(token)
+    log.info("SSO Login: {}".format(userinfo))
+    if userinfo:
+        user_dict = {
+            'name': helpers.ensure_unique_username_from_email(userinfo['preferred_username']),
+            'email': userinfo['email'],
+            'password': helpers.generate_password(),
+            'fullname': userinfo['name'],
+            'plugin_extras': {
+                'idp': 'google'
+            }
+        }
+        context = {"model": model, "session": model.Session}
+        g.user_obj = helpers.process_user(user_dict)
+        g.user = g.user_obj.name
+        context['user'] = g.user
+        context['auth_user_obj'] = g.user_obj
 
-#         response = tk.redirect_to(tk.url_for('user.me', context))
+        response = tk.redirect_to(tk.url_for('user.me', context))
 
-#         _log_user_into_ckan(response)
-#         log.info("Logged in success")
-#         return response
-#     else:
-#         return tk.redirect_to(tk.url_for('user.login'))
+        _log_user_into_ckan(response)
+        log.info("Logged in success")
+        return response
+    else:
+        return tk.redirect_to(tk.url_for('user.login'))
 
-def sso_logina():
+def sso_login_welcome():
     return jsonify({
                 "message": "Welcome to API!",
                 "success": True
@@ -106,7 +106,8 @@ def reset_password():
     return RequestResetView().post()
 
 keycloak.add_url_rule('/sso', view_func=sso)
-keycloak.add_url_rule('/sso_logina', view_func=sso_logina, methods=['GET'])
+keycloak.add_url_rule('/sso_login', view_func=sso_login)
+keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome, methods=['GET'])
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST'])
 
 def get_blueprint():
