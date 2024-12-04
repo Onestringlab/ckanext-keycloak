@@ -55,7 +55,9 @@ def sso():
 def sso_login():
     try:
         data = tk.request.args
+        log.info("Data: ",data)
         token = client.get_token(data['code'], redirect_uri)
+        log.info("Token: ",token)
         userinfo = client.get_user_info(token)
         log.info("SSO Login: {}".format(userinfo))
         if userinfo:
@@ -68,7 +70,7 @@ def sso_login():
                     'idp': 'google'
                 }
             }
-            log.info(user_dict)
+            # log.info(user_dict)
             context = {"model": model, "session": model.Session}
             g.user_obj = helpers.process_user(user_dict)
             g.user = g.user_obj.name
