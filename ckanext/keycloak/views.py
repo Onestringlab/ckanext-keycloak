@@ -100,7 +100,7 @@ def reset_password():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to API!",
+                "message": "Welcome to SSO!",
                 "success": True
             })
 
