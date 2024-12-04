@@ -66,9 +66,10 @@ def sso_login():
                 'email': userinfo['email'],
                 'password': helpers.generate_password(),
                 'fullname': helpers.ensure_unique_username_from_email(userinfo['email']), #userinfo['fullname'],
-                'plugin_extras': {
-                    'idp': 'google'
-                }
+                'plugin_extras': ''
+                # 'plugin_extras': {
+                #     'idp': 'google'
+                # }
             }
             # log.info(user_dict)
             context = {"model": model, "session": model.Session}
@@ -92,17 +93,17 @@ def sso_login():
 def reset_password():
     email = tk.request.form.get('user', None)
     if '@' not in email:
-        log.info(f'User requested reset link for invalid email: {email}')
+        log.info(f'User requested reset link for invalid email d: {email}')
         h.flash_error('Invalid email address')
         return tk.redirect_to(tk.url_for('user.request_reset'))
     user = model.User.by_email(email)
     if not user:
-        log.info(u'User requested reset link for unknown user: {}'.format(email))
+        log.info(u'User requested reset link for unknown user d: {}'.format(email))
         return tk.redirect_to(tk.url_for('user.login'))
     user_extras = user[0].plugin_extras
     if user_extras and user_extras.get('idp', None) == 'google':
         log.info(u'User requested reset link for google user: {}'.format(email))
-        h.flash_error('Invalid email address')
+        h.flash_error('Invalid email address d')
         return tk.redirect_to(tk.url_for('user.login'))
     return RequestResetView().post()
 
