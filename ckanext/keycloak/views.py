@@ -109,6 +109,7 @@ def reset_password():
 
 
 def sso_logout():
+    log.info("Logout in success ************************************")
     tk.logout() 
 
     # Redirect ke Keycloak logout URL
