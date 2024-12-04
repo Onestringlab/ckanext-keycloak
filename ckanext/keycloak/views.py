@@ -109,14 +109,14 @@ def reset_password():
 
 def sso_logout():
     log.info("Logout in success ************************************")
-    session.clear()
+    tk.logout_user()
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
     # Alamat CKAN setelah logout
     redirect_uri = "http://localhost:5000/user/login"  
     
-    return tk.redirect_to(f"{keycloak_logout_url}")
+    return tk.redirect_to(f"{keycloak_logout_url}?redirect_uri={redirect_uri}")
 
 def sso_login_welcome():
     return jsonify({
@@ -126,8 +126,8 @@ def sso_login_welcome():
 
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
-keycloak.add_url_rule('/logouta', view_func=sso_logout, methods=['GET'])
 keycloak.add_url_rule('/logout', view_func=sso_logout, methods=['GET'])
+keycloak.add_url_rule('/logouta', view_func=sso_logout, methods=['GET'])
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST'])
 
