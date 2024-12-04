@@ -113,7 +113,9 @@ def sso_logout():
     log.info("**************** Logout success ********************")
     # log.info(f"Toolkit available functions: {dir(tk)}")
 
-    request.environ.get('beaker.session').delete()
+    session = request.environ.get('beaker.session')
+    session.delete()  # Menghapus sesi pengguna
+    session.invalidate()  # Pastikan sesi benar-benar dihapus
     log.info("CKAN session cleared")
 
     # Redirect ke Keycloak logout URL
