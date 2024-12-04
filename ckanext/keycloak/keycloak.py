@@ -28,5 +28,5 @@ class KeycloakClient:
 
     def get_keycloak_admin(self):
         return KeycloakAdmin(
-            username="admin",
+            username="superadmin",
         )
