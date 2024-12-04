@@ -53,33 +53,36 @@ def sso():
     return tk.redirect_to(auth_url)
 
 def sso_login():
-    data = tk.request.args
-    token = client.get_token(data['code'], redirect_uri)
-    userinfo = client.get_user_info(token)
-    log.info("SSO Login: {}".format(userinfo))
-    if userinfo:
-        user_dict = {
-            'name': helpers.ensure_unique_username_from_email(userinfo['preferred_username']),
-            'email': userinfo['email'],
-            'password': helpers.generate_password(),
-            'fullname': userinfo['name'],
-            'plugin_extras': {
-                'idp': 'google'
+    try:
+        data = tk.request.args
+        token = client.get_token(data['code'], redirect_uri)
+        userinfo = client.get_user_info(token)
+        log.info("SSO Login: {}".format(userinfo))
+        if userinfo:
+            user_dict = {
+                'name': helpers.ensure_unique_username_from_email(userinfo['preferred_username']),
+                'email': userinfo['email'],
+                'password': helpers.generate_password(),
+                'fullname': userinfo['name'],
+                'plugin_extras': {
+                    'idp': 'google'
+                }
             }
-        }
-        context = {"model": model, "session": model.Session}
-        g.user_obj = helpers.process_user(user_dict)
-        g.user = g.user_obj.name
-        context['user'] = g.user
-        context['auth_user_obj'] = g.user_obj
+            context = {"model": model, "session": model.Session}
+            g.user_obj = helpers.process_user(user_dict)
+            g.user = g.user_obj.name
+            context['user'] = g.user
+            context['auth_user_obj'] = g.user_obj
 
-        response = tk.redirect_to(tk.url_for('user.me', context))
+            response = tk.redirect_to(tk.url_for('user.me', context))
 
-        _log_user_into_ckan(response)
-        log.info("Logged in success")
-        return response
-    else:
-        return tk.redirect_to(tk.url_for('user.login'))
+            _log_user_into_ckan(response)
+            log.info("Logged in success")
+            return response
+        else:
+            return tk.redirect_to(tk.url_for('user.login'))
+    except Exception as e:
+        log.info(e)
 
 def reset_password():
     email = tk.request.form.get('user', None)
