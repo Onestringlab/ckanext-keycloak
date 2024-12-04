@@ -63,7 +63,7 @@ def sso_login():
                 'name': helpers.ensure_unique_username_from_email(userinfo['email']),
                 'email': userinfo['email'],
                 'password': helpers.generate_password(),
-                'fullname': 'rionorman', #userinfo['name'],
+                'fullname': helpers.ensure_unique_username_from_email(userinfo['email']), #userinfo['fullname'],
                 'plugin_extras': {
                     'idp': 'google'
                 }
