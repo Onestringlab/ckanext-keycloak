@@ -82,7 +82,10 @@ def sso():
 #         return tk.redirect_to(tk.url_for('user.login'))
 
 def sso_login():
-    return "SSO Login success! This is a simple response."
+    return jsonify({
+                "message": "Welcome to API!",
+                "success": True
+            })
 
 
 def reset_password():
