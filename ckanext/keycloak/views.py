@@ -107,7 +107,7 @@ def reset_password():
         return tk.redirect_to(tk.url_for('user.login'))
     return RequestResetView().post()
 
-@keycloak.route('/user/logout')
+@keycloak.route('/logout')
 def sso_logout():
     # log.info("Logout in success ************************************")
     # tk.logout() 
