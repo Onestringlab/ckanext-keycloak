@@ -9,6 +9,8 @@ from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
 from os import environ
 
+from ckan.lib.base import request
+
 log = logging.getLogger(__name__)
 
 keycloak = Blueprint('keycloak', __name__, url_prefix='/user')
@@ -111,8 +113,7 @@ def sso_logout():
     log.info("**************** Logout success ********************")
     # log.info(f"Toolkit available functions: {dir(tk)}")
 
-    response = make_response(tk.redirect_to('/user/login'))
-    response.set_cookie('user_session', expires=0)
+    request.environ.get('beaker.session').delete()
     log.info("CKAN session cleared")
 
     # Redirect ke Keycloak logout URL
@@ -120,7 +121,7 @@ def sso_logout():
     # Alamat CKAN setelah logout
     redirect_uri = "http://localhost:5000/user/login"  
     
-    return response
+    return tk.redirect_to(tk.url_for('user.login'))
 
 def sso_login_welcome():
     return jsonify({
