@@ -108,9 +108,13 @@ def reset_password():
     return RequestResetView().post()
 
 def sso_logout():
-    log.info("Logout in success ************************************")
-    log.info(f"Toolkit available functions: {dir(tk)}")
-    tk.logout_user()
+    log.info("**************** Logout success ********************")
+    # log.info(f"Toolkit available functions: {dir(tk)}")
+
+    # Log out from CKAN (session clear manually)
+    session.pop('user', None)  # Clear session user key
+    session.pop('remember_me', None)  # Clear remember_me cookie if exists
+    log.info("CKAN session cleared")
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
