@@ -83,7 +83,7 @@ def sso_login():
             return tk.redirect_to(tk.url_for('user.login'))
     except Exception as e:
         log.error(e)
-        # return tk.redirect_to(tk.url_for('user.sso_login_welcome'))
+        return tk.redirect_to(tk.url_for('user.login'))
 
 def reset_password():
     email = tk.request.form.get('user', None)
