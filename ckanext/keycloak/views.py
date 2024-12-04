@@ -100,6 +100,7 @@ def reset_password():
         log.info(u'User requested reset link for unknown user : {}'.format(email))
         return tk.redirect_to(tk.url_for('user.login'))
     user_extras = user[0].plugin_extras
+    log.info(f"user_extras: {user_extras}")
     if user_extras and user_extras.get('idp', None) == 'google':
         log.info(u'User requested reset link for google user: {}'.format(email))
         h.flash_error('Invalid email address')
