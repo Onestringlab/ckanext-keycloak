@@ -60,7 +60,7 @@ def sso_login():
         log.info("SSO Login: {}".format(userinfo))
         if userinfo:
             user_dict = {
-                'name': helpers.ensure_unique_username_from_email(userinfo['email']),
+                'name': helpers.ensure_unique_username_from_email(userinfo['prefered_username']),
                 'email': userinfo['email'],
                 'password': helpers.generate_password(),
                 'fullname': userinfo['name'],
@@ -84,6 +84,7 @@ def sso_login():
     except Exception as e:
         log.error(e)
         return tk.redirect_to(tk.url_for('user.login'))
+
 
 def reset_password():
     email = tk.request.form.get('user', None)
