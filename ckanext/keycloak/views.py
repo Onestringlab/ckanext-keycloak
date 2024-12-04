@@ -9,7 +9,7 @@ from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
 from os import environ
 
-from ckan.lib.base import request, response
+from ckan.lib.base import request
 
 log = logging.getLogger(__name__)
 
@@ -117,7 +117,6 @@ def sso_logout():
     session.delete()  # Menghapus sesi pengguna
     session.invalidate()  # Pastikan sesi benar-benar dihapus
 
-    response.delete_cookie('auth_tkt')
     log.info(f"Cookies setelah logout: {request.cookies}")
 
     # Redirect ke Keycloak logout URL
