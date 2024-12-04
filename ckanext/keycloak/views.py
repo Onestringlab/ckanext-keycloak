@@ -60,7 +60,7 @@ def sso_login():
         log.info("SSO Login: {}".format(userinfo))
         if userinfo:
             user_dict = {
-                'name': 'rionorman', # helpers.ensure_unique_username_from_email(userinfo['prefered_username']),
+                'name': helpers.ensure_unique_username_from_email(userinfo['email']),
                 'email': userinfo['email'],
                 'password': helpers.generate_password(),
                 'fullname': 'rionorman', #userinfo['name'],
