@@ -3,7 +3,7 @@ from flask import Blueprint,jsonify,make_response
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
-from ckan.common import g,response
+from ckan.common import g
 from ckan.views.user import set_repoze_user, RequestResetView
 from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
