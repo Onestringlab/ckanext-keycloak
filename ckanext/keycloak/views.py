@@ -81,7 +81,7 @@ def sso():
 #     else:
 #         return tk.redirect_to(tk.url_for('user.login'))
 
-def sso_login():
+def sso_logina():
     return jsonify({
                 "message": "Welcome to API!",
                 "success": True
@@ -106,7 +106,7 @@ def reset_password():
     return RequestResetView().post()
 
 keycloak.add_url_rule('/sso', view_func=sso)
-keycloak.add_url_rule('/sso_login', view_func=sso_login, methods=['GET'])
+keycloak.add_url_rule('/sso_logina', view_func=sso_login, methods=['GET'])
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST'])
 
 def get_blueprint():
