@@ -3,7 +3,7 @@ from flask import Blueprint,jsonify,make_response
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
-from ckan.common import g,session
+from ckan.common import g
 from ckan.views.user import set_repoze_user, RequestResetView
 from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
@@ -112,7 +112,7 @@ def sso_logout():
     # log.info(f"Toolkit available functions: {dir(tk)}")
 
     response = make_response(tk.redirect_to('/user/login'))
-    response.set_cookie('user_session', expires=0)  # Clear the session cookie
+    response.set_cookie('user_session', expires=0)
     log.info("CKAN session cleared")
 
     # Redirect ke Keycloak logout URL

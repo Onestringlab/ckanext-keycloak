@@ -9,6 +9,7 @@ class KeycloakPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(plugins.ITemplateHelpers)
+    plugins.implements(plugins.interfaces.IAuthenticator)
 
     # IConfigurer
 
