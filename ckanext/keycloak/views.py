@@ -131,7 +131,7 @@ def sso_login_welcome():
 
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
-keycloak.add_url_rule('/logout', view_func=sso_logout, methods=['GET'])
+keycloak.add_url_rule('/logouta', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST'])
 
