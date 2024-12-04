@@ -9,8 +9,6 @@ from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
 from os import environ
 
-from ckan.lib.base import request
-
 log = logging.getLogger(__name__)
 
 keycloak = Blueprint('keycloak', __name__, url_prefix='/user')
@@ -112,12 +110,6 @@ def reset_password():
 def sso_logout():
     log.info("**************** Logout success ********************")
     log.info(f"Cookies sebelum logout: {request.cookies}")
-
-    session = request.environ.get('beaker.session')
-    session.delete()  # Menghapus sesi pengguna
-    session.invalidate()  # Pastikan sesi benar-benar dihapus
-
-    response.delete_cookie('auth_tkt')
 
     log.info(f"Cookies setelah logout: {request.cookies}")
 
