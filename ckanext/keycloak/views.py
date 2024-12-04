@@ -81,13 +81,6 @@ def sso_login():
     else:
         return tk.redirect_to(tk.url_for('user.login'))
 
-def sso_login_welcome():
-    return jsonify({
-                "message": "Welcome to API!",
-                "success": True
-            })
-
-
 def reset_password():
     email = tk.request.form.get('user', None)
     if '@' not in email:
@@ -104,6 +97,12 @@ def reset_password():
         h.flash_error('Invalid email address')
         return tk.redirect_to(tk.url_for('user.login'))
     return RequestResetView().post()
+
+def sso_login_welcome():
+    return jsonify({
+                "message": "Welcome to API!",
+                "success": True
+            })
 
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
