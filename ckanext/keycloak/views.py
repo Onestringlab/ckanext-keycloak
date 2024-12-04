@@ -115,7 +115,7 @@ def sso_logout():
     # Alamat CKAN setelah logout
     redirect_uri = "http://localhost:5000/user/login"  
     
-    return tk.redirect_to(tk.url_for(keycloak_logout_url))
+    return tk.redirect_to(f"{keycloak_logout_url}")
 
 def sso_login_welcome():
     return jsonify({
