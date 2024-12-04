@@ -68,6 +68,7 @@ def sso_login():
                     'idp': 'google'
                 }
             }
+            log.info(user_dict)
             context = {"model": model, "session": model.Session}
             g.user_obj = helpers.process_user(user_dict)
             g.user = g.user_obj.name
