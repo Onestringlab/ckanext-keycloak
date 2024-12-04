@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint,jsonify
+from flask import Blueprint,jsonify,session
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
@@ -109,7 +109,7 @@ def reset_password():
 
 def sso_logout():
     log.info("Logout in success ************************************")
-    tk.logout() 
+    session.clear()
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
