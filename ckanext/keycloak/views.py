@@ -118,7 +118,7 @@ def sso_logout():
     session.invalidate()  # Pastikan sesi benar-benar dihapus
 
     response.delete_cookie('auth_tkt')
-    log.info("CKAN session cleared")
+    log.info(f"Cookies setelah logout: {request.cookies}")
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
