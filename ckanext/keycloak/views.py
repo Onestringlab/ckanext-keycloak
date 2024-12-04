@@ -114,6 +114,7 @@ def sso_logout():
     # Log out from CKAN (session clear manually)
     session.pop('user', None)  # Clear session user key
     session.pop('remember_me', None)  # Clear remember_me cookie if exists
+    session.clear()
     log.info("CKAN session cleared")
 
     # Redirect ke Keycloak logout URL
