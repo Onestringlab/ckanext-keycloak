@@ -66,10 +66,9 @@ def sso_login():
                 'email': userinfo['email'],
                 'password': helpers.generate_password(),
                 'fullname': helpers.ensure_unique_username_from_email(userinfo['email']), #userinfo['fullname'],
-                'plugin_extras': ''
-                # 'plugin_extras': {
-                #     'idp': 'google'
-                # }
+                'plugin_extras': {
+                    'idp': 'google'
+                }
             }
             # log.info(user_dict)
             context = {"model": model, "session": model.Session}
