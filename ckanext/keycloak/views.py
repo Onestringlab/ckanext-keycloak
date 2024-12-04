@@ -109,15 +109,19 @@ def reset_password():
 
 
 def sso_logout():
-    log.info("Logout in success ************************************")
-    tk.logout() 
+    # log.info("Logout in success ************************************")
+    # tk.logout() 
 
-    # Redirect ke Keycloak logout URL
-    keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
-    # Alamat CKAN setelah logout
-    redirect_uri = "http://localhost:5000/user/login"  
+    # # Redirect ke Keycloak logout URL
+    # keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
+    # # Alamat CKAN setelah logout
+    # redirect_uri = "http://localhost:5000/user/login"  
     
-    return tk.redirect(f"{keycloak_logout_url}?redirect_uri={redirect_uri}")
+    # return tk.redirect(f"{keycloak_logout_url}?redirect_uri={redirect_uri}")
+    return jsonify({
+                "message": "Logout SSO!",
+                "success": True
+            })
 
 def sso_login_welcome():
     return jsonify({
