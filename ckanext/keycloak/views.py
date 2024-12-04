@@ -111,7 +111,7 @@ def sso_logout():
     log.info("**************** Logout success ********************")
     # log.info(f"Toolkit available functions: {dir(tk)}")
 
-    response = make_response(toolkit.redirect_to('/user/login'))
+    response = make_response(tk.redirect_to('/user/login'))
     response.set_cookie('user_session', expires=0)  # Clear the session cookie
     log.info("CKAN session cleared")
 
