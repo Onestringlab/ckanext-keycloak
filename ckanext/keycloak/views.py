@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint,jsonify
+from flask import Blueprint,jsonify,make_response
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
@@ -111,10 +111,8 @@ def sso_logout():
     log.info("**************** Logout success ********************")
     # log.info(f"Toolkit available functions: {dir(tk)}")
 
-    # Log out from CKAN (session clear manually)
-    session.pop('user', None)  # Clear session user key
-    session.pop('remember_me', None)  # Clear remember_me cookie if exists
-    session.clear()
+    response = make_response(toolkit.redirect_to('/user/login'))
+    response.set_cookie('user_session', expires=0)  # Clear the session cookie
     log.info("CKAN session cleared")
 
     # Redirect ke Keycloak logout URL
@@ -122,7 +120,7 @@ def sso_logout():
     # Alamat CKAN setelah logout
     redirect_uri = "http://localhost:5000/user/login"  
     
-    return tk.redirect_to(f"{redirect_uri}")
+    return response
 
 def sso_login_welcome():
     return jsonify({
