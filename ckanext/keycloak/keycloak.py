@@ -15,7 +15,7 @@ class KeycloakClient:
         )
 
     def get_auth_url(self, redirect_uri):
-        return self.get_keycloak_client().auth_url(redirect_uri=redirect_uri, scope="openid prefered_username")
+        return self.get_keycloak_client().auth_url(redirect_uri=redirect_uri, scope="openid email")
 
     def get_token(self, code, redirect_uri):
         return self.get_keycloak_client().token(grant_type="authorization_code", code=code, redirect_uri=redirect_uri)
