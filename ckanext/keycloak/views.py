@@ -109,9 +109,6 @@ def reset_password():
 
 def sso_logout():
     log.info("**************** Logout success ********************")
-    log.info(f"Cookies sebelum logout: {request.cookies}")
-
-    log.info(f"Cookies setelah logout: {request.cookies}")
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
