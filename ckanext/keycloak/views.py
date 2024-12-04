@@ -82,52 +82,7 @@ def sso():
 #         return tk.redirect_to(tk.url_for('user.login'))
 
 def sso_login():
-    data = tk.request.args
-    log.info(f"Received data: {data}")
-
-    if 'code' not in data:
-        log.error("Authorization code is missing")
-        return tk.abort(400, "Authorization code is missing")
-
-    try:
-        token = client.get_token(data['code'], redirect_uri)
-        log.info(f"Token received: {token}")
-    except Exception as e:
-        log.error(f"Error getting token: {e}")
-        return tk.abort(500, "Error getting token")
-
-    try:
-        userinfo = client.get_user_info(token)
-        log.info(f"User info received: {userinfo}")
-    except Exception as e:
-        log.error(f"Error getting user info: {e}")
-        return tk.abort(500, "Error getting user info")
-
-    if userinfo:
-        user_dict = {
-            'name': helpers.ensure_unique_username_from_email(userinfo['preferred_username']),
-            'email': userinfo['email'],
-            'password': helpers.generate_password(),
-            'fullname': userinfo['name'],
-            'plugin_extras': {
-                'idp': 'google'
-            }
-        }
-        context = {"model": model, "session": model.Session}
-        g.user_obj = helpers.process_user(user_dict)
-        g.user = g.user_obj.name
-        context['user'] = g.user
-        context['auth_user_obj'] = g.user_obj
-
-        redirect_url = tk.url_for('user.me', context)
-        log.info(f"Redirecting to: {redirect_url}")
-
-        _log_user_into_ckan(response)
-        log.info("Logged in success")
-        return tk.redirect_to(redirect_url)
-    else:
-        log.error("User info is missing or invalid")
-        return tk.redirect_to(tk.url_for('user.login'))
+    return "SSO Login success! This is a simple response."
 
 
 def reset_password():
