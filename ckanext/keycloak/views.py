@@ -114,7 +114,7 @@ def sso_logout():
     response = make_response(redirect('/user/login'))
 
     # Hapus cookie auth_tkt
-    response.delete_cookie('auth_tkt', path='/', secure=False)
+    response.delete_cookie('auth_tkt', path='/')
 
 
     # Redirect ke Keycloak logout URL
