@@ -111,7 +111,6 @@ def reset_password():
 
 def sso_logout():
     log.info("**************** Logout success ********************")
-    response = make_response(redirect('/user/login'))
 
     # Hapus cookie auth_tkt
     response.delete_cookie('auth_tkt', path='/')
