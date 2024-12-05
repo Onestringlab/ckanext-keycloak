@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint,jsonify,make_response
+from flask import Blueprint,jsonify,make_response, redirect
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
