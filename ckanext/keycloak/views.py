@@ -8,6 +8,7 @@ from ckan.views.user import set_repoze_user, RequestResetView
 from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
 from os import environ
+from ckan.common import response
 
 log = logging.getLogger(__name__)
 
@@ -111,6 +112,8 @@ def reset_password():
 
 def sso_logout():
     log.info("**************** Logout success ********************")
+    response.delete_cookie('auth_tkt', secure=False)
+
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
