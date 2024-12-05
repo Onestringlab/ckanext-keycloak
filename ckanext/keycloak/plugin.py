@@ -19,7 +19,7 @@ class KeycloakPlugin(plugins.SingletonPlugin):
 
     def get_blueprint(self):
         return get_blueprint()
-  
+
     # ITemplateHelpers
 
     def get_helpers(self):
