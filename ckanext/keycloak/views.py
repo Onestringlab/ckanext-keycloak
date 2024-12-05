@@ -36,8 +36,10 @@ def _log_user_into_ckan(resp):
 
     if tk.check_ckan_version(min_version="2.9.6"):
         user_id = "{},1".format(g.user_obj.id)
+        log.info(f'user_id 2.9.6:{user_id}')
     else:
         user_id = g.user
+        log.info(f'user_id else:{user_id}')
     set_repoze_user(user_id, resp)
 
     log.info(u'User {0}<{1}> logged in successfully'.format(g.user_obj.name, g.user_obj.email))
