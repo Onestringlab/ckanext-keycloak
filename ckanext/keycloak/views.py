@@ -19,6 +19,8 @@ client_id = tk.config.get('ckanext.keycloak.client_id', environ.get('CKANEXT__KE
 realm_name = tk.config.get('ckanext.keycloak.realm_name', environ.get('CKANEXT__KEYCLOAK__REALM_NAME'))
 redirect_uri = tk.config.get('ckanext.keycloak.redirect_uri', environ.get('CKANEXT__KEYCLOAK__REDIRECT_URI'))
 client_secret_key = tk.config.get('ckanext.keycloak.client_secret_key', environ.get('CKANEXT__KEYCLOAK__CLIENT_SECRET_KEY'))
+logout_uri = tk.config.get('ckanext.keycloak.logout_uri', environ.get('CKANEXT__KEYCLOAK__LOGOUT_URI'))
+
 
 client = KeycloakClient(server_url, client_id, realm_name, client_secret_key)
 
@@ -119,11 +121,7 @@ def sso_logout():
     response = tk.redirect_to(tk.url_for('user.login', context))
 
     # Redirect ke Keycloak logout URL
-    # keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
-    
-    # return tk.redirect_to(f"{keycloak_logout_url}")
-    return response
-
+    return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
     return jsonify({
