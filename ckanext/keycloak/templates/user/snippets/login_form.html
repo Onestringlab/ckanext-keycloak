@@ -24,7 +24,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 {% elif  button_style == "azure" %}
     <a class="azurebtn btn btn-defaul" href="{{ h.url_for('keycloak.sso') }}">{{ _('Sign in with AzureAD') }}</a>
 {% else %}
-    <a class="btn btn-primary" href="{{ h.url_for('keycloak.sso') }}">{{ _('SSO') }}</a>
+    <a class="btn btn-primary" href="{{ h.url_for('keycloak.sso') }}">{{ _('SSO SE') }}</a>
 {% endif %}
 
 {% set enable_ckan_login = h.enable_internal_login() %}
