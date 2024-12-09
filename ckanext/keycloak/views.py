@@ -117,12 +117,13 @@ def sso_logout():
     context['auth_user_obj'] = None
 
     response = tk.redirect_to(tk.url_for('user.login', context))
-    _log_user_into_ckan(response)
 
     # Redirect ke Keycloak logout URL
     # keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
     
     # return tk.redirect_to(f"{keycloak_logout_url}")
+    return response
+
 
 def sso_login_welcome():
     return jsonify({
