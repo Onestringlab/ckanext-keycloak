@@ -126,7 +126,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO Cuy!",
+                "message": "Welcome to SSO Cuy Asyik!",
                 "success": True
             })
 
