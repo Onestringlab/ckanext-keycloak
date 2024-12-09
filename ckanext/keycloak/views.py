@@ -121,8 +121,8 @@ def sso_logout():
     response = tk.redirect_to(tk.url_for('user.logout', context))
 
     # Redirect ke Keycloak logout URL
-    return response
-    # return tk.redirect_to(f"{logout_uri}")
+    # return response
+    return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
     return jsonify({
