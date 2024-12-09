@@ -113,8 +113,8 @@ def sso_logout():
     log.info("**************** Logout success ********************")
 
     context = {"model": model, "session": model.Session}
-    context['user'] = NULL
-    context['auth_user_obj'] = NULL
+    context['user'] = None
+    context['auth_user_obj'] = None
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
