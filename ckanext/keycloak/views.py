@@ -112,8 +112,9 @@ def reset_password():
 def sso_logout():
     log.info("**************** Logout success ********************")
 
-    # Hapus cookie auth_tkt
-    response.delete_cookie('auth_tkt', path='/')
+    context = {"model": model, "session": model.Session}
+    context['user'] = NULL
+    context['auth_user_obj'] = NULL
 
     # Redirect ke Keycloak logout URL
     keycloak_logout_url = "https://cas.tech-dev.id/realms/ckan-sdi/protocol/openid-connect/logout"
