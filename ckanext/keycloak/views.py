@@ -97,7 +97,7 @@ def reset_password():
     email = tk.request.form.get('user', None)
     if '@' not in email:
         log.info(f'User requested reset link for invalid email: {email}')
-        h.flash_error('Invalid email address')
+        h.flash_error('Invalid email address!')
         return tk.redirect_to(tk.url_for('user.request_reset'))
     user = model.User.by_email(email)
     if not user:
@@ -135,7 +135,7 @@ keycloak.add_url_rule('/sso_login', view_func=sso_login)
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
-keycloak.add_url_rule('/reset_password', view_func=reset_password)
+keycloak.add_url_rule('/reset_password', view_func=reset_password, method=['POST'])
 
 def get_blueprint():
     return keycloak
