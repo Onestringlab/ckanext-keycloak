@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 {% ckan_extends %}
 
-{% block header_account_notlogged %}
+{% block header_account_logged %}
 
     <li>{% link_for _('Log in'), named_route='user.login' %}</li>
     {% if h.check_access('user_create') %}
