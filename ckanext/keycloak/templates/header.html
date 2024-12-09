@@ -15,13 +15,27 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #}
 
-{% ckan_extends %}
+<!-- {% ckan_extends %} -->
 
-{% block header_account_logged %}
+<!-- {% block header_account_notlogged %}
 
     <li>{% link_for _('Log in'), named_route='user.login' %}</li>
     {% if h.check_access('user_create') %}
       <li>{% link_for _('Register'), named_route='user.register', class_='sub' %}</li>
     {% endif %}
     You should have received a copy of the GNU Affero General Public License
+{% endblock %} -->
+
+
+{% extends "header_base.html" %}
+
+{% block header_account_logged %}
+{{ super() }}
+{% endblock %}
+
+{% block header_account_notlogged %}
+    <li>{% link_for _('Log in'), named_route='user.login' %}</li>
+    {% if h.check_access('user_create') %}
+    <li>{% link_for _('Register'), named_route='user.register', class_='sub' %}</li>
+    {% endif %}
 {% endblock %}
