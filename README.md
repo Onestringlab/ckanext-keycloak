@@ -1,6 +1,6 @@
 [![Tests](https://github.com/keitaroinc/ckanext-keycloak/workflows/Tests/badge.svg?style=flat)](https://github.com/keitaroinc/ckanext-keycloak/actions/workflows/test.yml)
 
-# ckanext-keycloak
+# ckanext-keycloak SDI
 
 ckanext-keycloak is an extension for CKAN, that adds Single Sign On options for CKAN portals. It enables the users to authenticate with [Keycloack](https://www.keycloak.org/) instead of creating a new user account on CKAN.
 
