@@ -3,7 +3,7 @@ from flask import Blueprint,jsonify,make_response, redirect
 from ckan.plugins import toolkit as tk
 import ckan.lib.helpers as h
 import ckan.model as model
-from ckan.common import g,logout_user
+from ckan.common import g
 from ckan.views.user import set_repoze_user, RequestResetView
 from ckanext.keycloak.keycloak import KeycloakClient
 import ckanext.keycloak.helpers as helpers
@@ -128,7 +128,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO Cuy Asyik!",
+                "message": "Welcome to SSO 1",
                 "success": True
             })
 
