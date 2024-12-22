@@ -121,7 +121,7 @@ def sso_logout():
 
     # logout_user()
 
-    # Redirect ke Keycloak logout URI
+    # Redirect ke Keycloak logout URL
     return tk.redirect_to(f"{logout_uri}")
 
     # return response
