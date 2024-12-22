@@ -115,10 +115,8 @@ def sso_logout():
     log.info("**************** Logout success ********************")
 
     context = {"model": model, "session": model.Session}
-    context['user'] = None
-    context['auth_user_obj'] = None
-
-    set_repoze_user('','')
+    context['user'] = g.user
+    context['auth_user_obj'] = g.user_obj
 
     response = tk.redirect_to(tk.url_for('user.logout', context))
 
