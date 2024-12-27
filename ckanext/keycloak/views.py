@@ -115,11 +115,9 @@ def reset_password():
 def sso_logout():
     log.info("**************** Logout success ********************")
 
-    for item in plugins.PluginImplementations(plugins.IAuthenticator):
-        log.info("item.logout()")
-        response = item.logout()
-        if response:
-            return response
+    g.user = None
+    g.user_obj = None
+    session.clear()
 
     # Redirect ke Keycloak logout URI
     return tk.redirect_to(f"{logout_uri}")
