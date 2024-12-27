@@ -117,6 +117,8 @@ def sso_logout():
 
     g.user = None
     g.user_obj = None
+    context['user'] = g.user
+    context['auth_user_obj'] = g.user_obj
     session.clear()
 
     # redirect_uri = tk.url_for('home', qualified=True)
