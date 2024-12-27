@@ -126,7 +126,7 @@ def sso_logout():
     response = Response()
     response.delete_cookie('auth_tkt', path='/')
 
-    return tk.redirect_to(f"{logout_uri}")
+    # return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
     return jsonify({
