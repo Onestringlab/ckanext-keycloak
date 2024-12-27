@@ -114,7 +114,8 @@ def reset_password():
 
 def sso_logout():
     log.info("**************** Logout success ********************")
-
+    
+    context = {"model": model, "session": model.Session}
     g.user = None
     g.user_obj = None
     context['user'] = g.user
