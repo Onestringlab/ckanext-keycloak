@@ -43,3 +43,4 @@ docs/_build/
 
 kode.txt
 update_keycloak.sh
+test_jwt.py
