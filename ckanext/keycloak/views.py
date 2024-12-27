@@ -9,7 +9,6 @@ from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 
-# from flask_login import logout_user
 from flask import Blueprint,jsonify,make_response, redirect
 
 log = logging.getLogger(__name__)
@@ -116,8 +115,6 @@ def reset_password():
 
 def sso_logout():
     log.info("**************** Logout success ********************")
-
-    # logout_user()
 
     # Redirect ke Keycloak logout URI
     return tk.redirect_to(f"{logout_uri}")
