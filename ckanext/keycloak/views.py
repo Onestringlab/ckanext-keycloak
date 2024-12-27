@@ -5,7 +5,7 @@ import ckan.plugins as plugins
 import ckanext.keycloak.helpers as helpers
 
 from os import environ
-from ckan.common import g, session
+from ckan.common import g, session, config
 from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
 from flask import Blueprint,jsonify,make_response, redirect, Response
@@ -124,7 +124,7 @@ def sso_logout():
 
     # Hapus cookie 'auth_tkt' untuk mengakhiri sesi CKAN
     response = Response()
-    response.delete_cookie('auth_tkt', path='/', domain=config.get('ckan.auth.cookie_domain'))
+    response.delete_cookie('auth_tkt', path='/')
 
     return tk.redirect_to(f"{logout_uri}")
 
