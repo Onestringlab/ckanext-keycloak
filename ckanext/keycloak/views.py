@@ -5,7 +5,7 @@ import ckan.plugins as plugins
 import ckanext.keycloak.helpers as helpers
 
 from os import environ
-from ckan.common import g
+from ckan.common import g, session
 from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
 from flask import Blueprint,jsonify,make_response, redirect
@@ -117,9 +117,10 @@ def sso_logout():
 
     g.user = None
     g.user_obj = None
+    session.clear()
 
-    redirect_uri = tk.url_for('home', qualified=True)
-    complete_logout_url = f"{logout_uri}?redirect_uri={redirect_uri}"
+    # redirect_uri = tk.url_for('home', qualified=True)
+    # complete_logout_url = f"{logout_uri}?redirect_uri={redirect_uri}"
 
     # return tk.redirect_to(complete_logout_url)
     return tk.redirect_to(f"{logout_uri}")
