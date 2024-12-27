@@ -9,8 +9,7 @@ from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from ckan.common import (
-    _, config, g, request, current_user, login_user, logout_user, session,
-    repr_untrusted
+    _, config, g, request, login_user, logout_user, session, repr_untrusted
 )
 
 from flask import Blueprint,jsonify,make_response, redirect
