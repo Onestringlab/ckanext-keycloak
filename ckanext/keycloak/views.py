@@ -121,8 +121,8 @@ def sso_logout():
     redirect_uri = tk.url_for('home', qualified=True)
     complete_logout_url = f"{logout_uri}?redirect_uri={redirect_uri}"
 
-    return tk.redirect_to(complete_logout_url)
-    # return tk.redirect_to(f"{logout_uri}")
+    # return tk.redirect_to(complete_logout_url)
+    return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
     return jsonify({
