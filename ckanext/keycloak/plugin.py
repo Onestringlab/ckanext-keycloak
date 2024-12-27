@@ -1,8 +1,8 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 
-from ckanext.keycloak.views import get_blueprint
 from ckanext.keycloak import helpers as h
+from ckanext.keycloak.views import get_blueprint
 
 
 class KeycloakPlugin(plugins.SingletonPlugin):

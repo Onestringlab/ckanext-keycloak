@@ -117,7 +117,7 @@ def sso_logout():
 
     g.user = None
     g.user_obj = None
-    session.clear()
+    # session.clear()
 
     # Redirect ke Keycloak logout URI
     return tk.redirect_to(f"{logout_uri}")
