@@ -114,7 +114,7 @@ def reset_password():
 
 def sso_logout():
     log.info("**************** Logout success ********************")
-    
+
     context = {"model": model, "session": model.Session}
     g.user = None
     g.user_obj = None
@@ -122,10 +122,10 @@ def sso_logout():
     context['auth_user_obj'] = g.user_obj
     session.clear()
 
-    # redirect_uri = tk.url_for('home', qualified=True)
-    # complete_logout_url = f"{logout_uri}?redirect_uri={redirect_uri}"
+    # Hapus cookie 'auth_tkt' untuk mengakhiri sesi CKAN
+    response = tk.response
+    response.delete_cookie('auth_tkt', path='/', domain=config.get('ckan.auth.cookie_domain'))
 
-    # return tk.redirect_to(complete_logout_url)
     return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
