@@ -124,14 +124,14 @@ def sso_logout():
 
     # Hapus cookie 'auth_tkt' untuk mengakhiri sesi CKAN
     response = make_response("Cookie telah dihapus.")
+    response.set_cookie('auth_tkt', '', expires=0, path='/')
     response.delete_cookie('auth_tkt', path='/')
-    response.set_cookie('auth_tkt', '', expires=0)
 
     return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 1",
+                "message": "Welcome to SSO 2",
                 "success": True
             })
 
