@@ -8,7 +8,7 @@ from os import environ
 from ckan.common import g, session, config
 from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
-from flask import Blueprint,jsonify,make_response, redirect
+from flask import Blueprint,jsonify,make_response,redirect
 from ckan.views.user import set_repoze_user, RequestResetView
 
 log = logging.getLogger(__name__)
@@ -113,7 +113,7 @@ def reset_password():
     return RequestResetView().post()
 
 def sso_logout():
-    log.info("**************** Logout success ********************")
+    log.info("**************** Logout success 4 ********************")
 
     context = {"model": model, "session": model.Session}
     g.user = None
@@ -126,6 +126,8 @@ def sso_logout():
     response = make_response("Menghapus cookie")
     response.set_cookie('auth_tkt', 'Kambing')
     response.delete_cookie('auth_tkt')
+    response.delete_cookie('ckan')
+
 
     return tk.redirect_to(f"{logout_uri}")
 
