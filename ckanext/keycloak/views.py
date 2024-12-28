@@ -122,18 +122,17 @@ def sso_logout():
     context['auth_user_obj'] = g.user_obj
     session.clear()
 
-    # Hapus cookie 'auth_tkt' untuk mengakhiri sesi CKAN
-    response = make_response("Menghapus cookie")
-    response.set_cookie('hore', 'Kambing')
+    # Buat respons untuk menghapus cookie dan arahkan ke login
+    response = tk.redirect_to(tk.url_for('user.login'))
+    response = make_response(response)
     response.delete_cookie('auth_tkt')
     response.delete_cookie('ckan')
 
-    return tk.redirect_to(tk.url_for('user.login'))
+    return response
+    # return tk.redirect_to(tk.url_for('user.login'))
     # return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
-    response = make_response("Membuat cookie")
-    response.set_cookie('hore', 'Kambing')
     return jsonify({
                 "message": "Welcome to SSO 2",
                 "success": True
