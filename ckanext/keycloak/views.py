@@ -123,7 +123,7 @@ def sso_logout():
     session.clear()
 
     # Buat respons untuk menghapus cookie dan arahkan ke login
-    response = tk.redirect_to(tk.url_for('user.login'))
+    response = tk.redirect_to(tk.url_for(logout_uri))
     response = make_response(response)
     response.delete_cookie('auth_tkt')
     response.delete_cookie('ckan')
