@@ -8,7 +8,7 @@ from os import environ
 from ckan.common import g, session, config
 from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
-from flask import Blueprint,jsonify,make_response, redirect, Response
+from flask import Blueprint,jsonify,make_response, redirect
 from ckan.views.user import set_repoze_user, RequestResetView
 
 log = logging.getLogger(__name__)
@@ -123,13 +123,8 @@ def sso_logout():
     session.clear()
 
     # Hapus cookie 'auth_tkt' untuk mengakhiri sesi CKAN
-    response = Response()
+    response = make_response("Cookie telah dihapus.")
     response.delete_cookie('auth_tkt', path='/')
-
-    cookie_domain = config.get('ckan.auth.cookie_domain')
-    if cookie_domain:
-        log.info(f"Attempting to delete cookie for domain: {cookie_domain}")
-        response.delete_cookie('auth_tkt', path='/', domain=cookie_domain)
 
     return tk.redirect_to(f"{logout_uri}")
 
