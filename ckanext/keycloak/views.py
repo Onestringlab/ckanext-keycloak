@@ -126,6 +126,11 @@ def sso_logout():
     response = Response()
     response.delete_cookie('auth_tkt', path='/')
 
+    cookie_domain = config.get('ckan.auth.cookie_domain')
+    if cookie_domain:
+        log.info(f"Attempting to delete cookie for domain: {cookie_domain}")
+        response.delete_cookie('auth_tkt', path='/', domain=cookie_domain)
+
     # return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
