@@ -123,9 +123,9 @@ def sso_logout():
     session.clear()
 
     # Hapus cookie 'auth_tkt' untuk mengakhiri sesi CKAN
-    response = make_response("Cookie telah dihapus.")
-    response.set_cookie('auth_tkt', '', expires=0, path='/')
-    response.delete_cookie('auth_tkt', path='/')
+    response = make_response("Menghapus cookie")
+    response.set_cookie('auth_tkt', 'Kambing')
+    response.delete_cookie('auth_tkt')
 
     return tk.redirect_to(f"{logout_uri}")
 
