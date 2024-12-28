@@ -131,7 +131,7 @@ def sso_logout():
         log.info(f"Attempting to delete cookie for domain: {cookie_domain}")
         response.delete_cookie('auth_tkt', path='/', domain=cookie_domain)
 
-    # return tk.redirect_to(f"{logout_uri}")
+    return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
     return jsonify({
