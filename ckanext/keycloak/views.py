@@ -132,6 +132,7 @@ def sso_logout():
     # return tk.redirect_to(f"{logout_uri}")
 
 def sso_login_welcome():
+    response = make_response("Membuat cookie")
     response.set_cookie('hore', 'Kambing')
     return jsonify({
                 "message": "Welcome to SSO 2",
