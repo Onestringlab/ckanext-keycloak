@@ -131,8 +131,8 @@ def sso_logout():
         response.delete_cookie('auth_tkt', path='/')
         response.delete_cookie('ckan', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/', domain=domain_url)
-        response.delete_cookie('ckan', path='/', domain=domain_url)
+        response.delete_cookie('auth_tkt', path='/', domain=domain_url,secure=True, samesite='None')
+        response.delete_cookie('ckan', path='/', domain=domain_url, secure=True, samesite='None')
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
