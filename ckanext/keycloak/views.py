@@ -129,10 +129,9 @@ def sso_logout():
     log.info(f'domain_url: {domain_url}')
     if domain_url == 'localhost:5000':
         response.delete_cookie('auth_tkt', path='/')
-        response.delete_cookie('ckan', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/')
-        response.delete_cookie('ckan', path='/')
+        response.delete_cookie('auth_tkt', path='/', domain='ckan-demo.data.go.id')
+        response.delete_cookie('auth_tkt', path='/', domain='.ckan-demo.data.go.id')
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
@@ -140,7 +139,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 3.13",
+                "message": "Welcome to SSO 3.14",
                 "success": True
             })
 
