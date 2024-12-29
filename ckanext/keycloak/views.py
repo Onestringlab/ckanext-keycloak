@@ -131,7 +131,7 @@ def sso_logout():
         response.delete_cookie('auth_tkt', path='/')
         # response.delete_cookie('ckan', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/', domain=domain_url)
+        response.delete_cookie('auth_tkt', path='/')
         # response.delete_cookie('ckan', path='/', domain=domain_url, samesite='None')
 
     return response
@@ -140,7 +140,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 3.11",
+                "message": "Welcome to SSO 3.12",
                 "success": True
             })
 
