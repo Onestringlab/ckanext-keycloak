@@ -141,8 +141,7 @@ def sso_logout():
 def sso_login_welcome():
     return jsonify({
                 "message": "Welcome to SSO 3.2",
-                "success": True,
-                "domain_url": domain_url
+                "success": True
             })
 
 keycloak.add_url_rule('/sso', view_func=sso)
