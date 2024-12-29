@@ -21,6 +21,7 @@ realm_name = tk.config.get('ckanext.keycloak.realm_name', environ.get('CKANEXT__
 redirect_uri = tk.config.get('ckanext.keycloak.redirect_uri', environ.get('CKANEXT__KEYCLOAK__REDIRECT_URI'))
 client_secret_key = tk.config.get('ckanext.keycloak.client_secret_key', environ.get('CKANEXT__KEYCLOAK__CLIENT_SECRET_KEY'))
 logout_uri = tk.config.get('ckanext.keycloak.logout_uri', environ.get('CKANEXT__KEYCLOAK__LOGOUT_URI'))
+domain = tk.config.get('ckanext.keycloak.domain', environ.get('CKANEXT__KEYCLOAK__DOMAIN'))
 
 
 client = KeycloakClient(server_url, client_id, realm_name, client_secret_key)
@@ -125,8 +126,8 @@ def sso_logout():
     # Buat respons untuk menghapus cookie dan arahkan ke login
     response = tk.redirect_to(f"{logout_uri}")
     response = make_response(response)
-    response.delete_cookie('auth_tkt')
-    response.delete_cookie('ckan')
+    response.delete_cookie('auth_tkt', path='/', domain=domain)
+    response.delete_cookie('ckan', path='/', domain=domain)
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
