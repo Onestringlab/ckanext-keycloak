@@ -127,8 +127,10 @@ def sso_logout():
     response = make_response(response)
 
     log.info(f'domain_url: {domain_url}')
-    # if domain_url == 'http://localhost:5000':
-        # domain_url = ''
+    if domain_url == 'http://localhost:5000':
+        log.info(f'domain_url: {domain_url}')
+        domain_url = ''
+
     # response.delete_cookie('auth_tkt', path='/', domain=domain_url)
     # response.delete_cookie('ckan', path='/', domain=domain_url)
 
