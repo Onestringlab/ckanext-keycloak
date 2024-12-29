@@ -126,6 +126,8 @@ def sso_logout():
     # Buat respons untuk menghapus cookie dan arahkan ke login
     response = tk.redirect_to(f"{logout_uri}")
     response = make_response(response)
+    if domain=='http://localhost:5000':
+        domain = ''
     response.delete_cookie('auth_tkt', path='/', domain=domain)
     response.delete_cookie('ckan', path='/', domain=domain)
 
