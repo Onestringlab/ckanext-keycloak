@@ -131,8 +131,8 @@ def sso_logout():
         response.delete_cookie('auth_tkt', path='/')
         response.delete_cookie('ckan', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/', domain=domain_url)
-        response.delete_cookie('ckan', path='/', domain=domain_url)
+        response.delete_cookie('auth_tkt', path='/', domain=domain_url, samesite='Lax')
+        response.delete_cookie('ckan', path='/', domain=domain_url, samesite='Lax')
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
@@ -140,7 +140,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 3.7",
+                "message": "Welcome to SSO 3.8",
                 "success": True
             })
 
