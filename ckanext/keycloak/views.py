@@ -128,11 +128,11 @@ def sso_logout():
     domain_url = tk.config.get('ckanext.keycloak.domain_url', environ.get('CKANEXT__KEYCLOAK__DOMAIN_URL'))
     log.info(f'domain_url: {domain_url}')
     if domain_url == 'http://localhost:5000':
-        log.info(f'domain_url: {domain_url}')
-        domain_url = ''
-
-    response.delete_cookie('auth_tkt', path='/', domain=domain_url)
-    response.delete_cookie('ckan', path='/', domain=domain_url)
+        response.delete_cookie('auth_tkt', path='/')
+        response.delete_cookie('ckan', path='/')
+    # else:
+        # response.delete_cookie('auth_tkt', path='/', domain=domain_url)
+        # response.delete_cookie('ckan', path='/', domain=domain_url)
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
