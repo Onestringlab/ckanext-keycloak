@@ -127,12 +127,12 @@ def sso_logout():
 
     domain_url = tk.config.get('ckanext.keycloak.domain_url', environ.get('CKANEXT__KEYCLOAK__DOMAIN_URL'))
     log.info(f'domain_url: {domain_url}')
-    if domain_url == 'http://localhost:5000':
+    if domain_url == 'localhost:5000':
         response.delete_cookie('auth_tkt', path='/')
         response.delete_cookie('ckan', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/')
-        response.delete_cookie('ckan', path='/')
+        response.delete_cookie('auth_tkt', path='/', domain=domain_url)
+        response.delete_cookie('ckan', path='/', domain=domain_url)
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
@@ -140,7 +140,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 3.4",
+                "message": "Welcome to SSO 3.5",
                 "success": True
             })
 
