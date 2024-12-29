@@ -129,10 +129,10 @@ def sso_logout():
     log.info(f'domain_url: {domain_url}')
     if domain_url == 'localhost:5000':
         response.delete_cookie('auth_tkt', path='/')
-        response.delete_cookie('ckan', path='/')
+        # response.delete_cookie('ckan', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/', domain=domain_url, samesite='None')
-        response.delete_cookie('ckan', path='/', domain=domain_url, samesite='None')
+        response.delete_cookie('auth_tkt', path='/', domain=domain_url)
+        # response.delete_cookie('ckan', path='/', domain=domain_url, samesite='None')
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
