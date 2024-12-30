@@ -134,6 +134,16 @@ def sso_logout():
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
         response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
 
+    response.set_cookie(
+        'nama_cookie',   # Nama cookie
+        'nilai_cookie',  # Nilai cookie
+        max_age=3600,    # Waktu berlaku dalam detik (opsional)
+        path='/',        # Path cookie (opsional, default '/')
+        secure=True,     # Cookie hanya dikirim melalui HTTPS (opsional)
+        httponly=True,   # Cookie hanya dapat diakses oleh browser, tidak oleh JavaScript (opsional)
+        samesite='Lax'   # SameSite untuk keamanan lintas situs (opsional: 'Lax', 'Strict', atau 'None')
+    )
+
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
     # return tk.redirect_to(f"{logout_uri}")
