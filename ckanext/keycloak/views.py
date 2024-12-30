@@ -114,24 +114,25 @@ def reset_password():
 def sso_logout():
     log.info("**************** Logout success 4 ********************")
 
-    context = {"model": model, "session": model.Session}
-    g.user = None
-    g.user_obj = None
-    context['user'] = g.user
-    context['auth_user_obj'] = g.user_obj
-    session.clear()
+    # context = {"model": model, "session": model.Session}
+    # g.user = None
+    # g.user_obj = None
+    # context['user'] = g.user
+    # context['auth_user_obj'] = g.user_obj
+    # session.clear()
 
     # Buat respons untuk menghapus cookie dan arahkan ke login
-    response = tk.redirect_to(f"{logout_uri}")
     response = make_response(response)
+    response = tk.redirect_to(f"{logout_uri}")
 
     domain_url = tk.config.get('ckanext.keycloak.domain_url', environ.get('CKANEXT__KEYCLOAK__DOMAIN_URL'))
-    log.info(f'domain_url: {domain_url}')
     if domain_url == 'localhost:5000':
+        log.info(f'domain_url: {domain_url}')
         response.delete_cookie('auth_tkt', path='/')
     else:
-        response.delete_cookie('auth_tkt', path='/', domain='ckan-demo.data.go.id')
-        response.delete_cookie('auth_tkt', path='/', domain='.ckan-demo.data.go.id')
+        log.info(f'domain_url: {domain_url}')
+        response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
+        response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
 
     return response
     # return tk.redirect_to(tk.url_for('user.login'))
@@ -139,7 +140,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 3.14",
+                "message": "Welcome to SSO 4.1",
                 "success": True
             })
 
