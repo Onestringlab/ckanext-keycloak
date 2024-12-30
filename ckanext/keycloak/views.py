@@ -131,7 +131,7 @@ def sso_logout():
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
 
     response.set_cookie(
-        'cookie_value',  
+        'auth_tkt',  
         cookie_value,  
         max_age=3600,    
         path='/',        
@@ -146,7 +146,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 4.8",
+                "message": "Welcome to SSO 4.9",
                 "success": True
             })
 
