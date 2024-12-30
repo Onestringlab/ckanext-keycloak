@@ -132,12 +132,11 @@ def sso_logout():
     else:
         log.info(f'domain_url: {domain_url}')
         response.delete_cookie('auth_tkt', path='/')
-        response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
-
+        
     response.set_cookie(
-        'domain_url',   # Nama cookie
-        domain_url,  # Nilai cookie
+        'auth_tkt',   # Nama cookie
+        '',  # Nilai cookie
         max_age=3600,    # Waktu berlaku dalam detik (opsional)
         path='/',        # Path cookie (opsional, default '/')
         secure=True,     # Cookie hanya dikirim melalui HTTPS (opsional)
@@ -151,7 +150,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 4.5",
+                "message": "Welcome to SSO 4.6",
                 "success": True
             })
 
