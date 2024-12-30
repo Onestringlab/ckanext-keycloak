@@ -132,7 +132,7 @@ def sso_logout():
     else:
         log.info(f'domain_url: {domain_url}')
         response.delete_cookie('auth_tkt', path='/')
-        response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
+        # response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
 
     response.set_cookie(
