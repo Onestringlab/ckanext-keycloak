@@ -122,8 +122,8 @@ def sso_logout():
     # session.clear()
 
     # Buat respons untuk menghapus cookie dan arahkan ke login
-    response = make_response(response)
     response = tk.redirect_to(f"{logout_uri}")
+    response = make_response(response)
 
     domain_url = tk.config.get('ckanext.keycloak.domain_url', environ.get('CKANEXT__KEYCLOAK__DOMAIN_URL'))
     if domain_url == 'localhost:5000':
