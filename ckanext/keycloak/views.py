@@ -119,12 +119,14 @@ def sso_logout():
     response = make_response(response)
 
     domain_url = tk.config.get('ckanext.keycloak.domain_url', environ.get('CKANEXT__KEYCLOAK__DOMAIN_URL'))
-    cookie_value = request.cookies.get('auth_tkt')
+    cookie_value = ''
     if domain_url == 'localhost:5000':
+        cookie_value = request.cookies.get('auth_tkt')
         log.info(f'domain_url: {domain_url}')
         response.delete_cookie('auth_tkt', path='/')
     else:
         log.info(f'domain_url: {domain_url}')
+        cookie_value = request.cookies.get('auth_tkt')
         response.delete_cookie('auth_tkt', path='/')
         # response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
