@@ -8,8 +8,8 @@ from os import environ
 from ckan.common import g, session, config
 from ckan.plugins import toolkit as tk
 from ckanext.keycloak.keycloak import KeycloakClient
-from flask import Blueprint,jsonify,make_response,redirect
 from ckan.views.user import set_repoze_user, RequestResetView
+from flask import Blueprint,jsonify,make_response,redirect,request
 
 log = logging.getLogger(__name__)
 
@@ -114,13 +114,6 @@ def reset_password():
 def sso_logout():
     log.info("**************** Logout success 4 ********************")
 
-    # context = {"model": model, "session": model.Session}
-    # g.user = None
-    # g.user_obj = None
-    # context['user'] = g.user
-    # context['auth_user_obj'] = g.user_obj
-    # session.clear()
-
     # Buat respons untuk menghapus cookie dan arahkan ke login
     response = tk.redirect_to(f"{logout_uri}")
     response = make_response(response)
@@ -131,13 +124,14 @@ def sso_logout():
         response.delete_cookie('auth_tkt', path='/')
     else:
         log.info(f'domain_url: {domain_url}')
+        cookie_value = request.cookies.get('auth_tkt')
         response.delete_cookie('auth_tkt', path='/')
         # response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
 
     response.set_cookie(
-        'domain_url',   # Nama cookie
-        domain_url,  # Nilai cookie
+        'cookie_value',   # Nama cookie
+        cookie_value,  # Nilai cookie
         max_age=3600,    # Waktu berlaku dalam detik (opsional)
         path='/',        # Path cookie (opsional, default '/')
         secure=True,     # Cookie hanya dikirim melalui HTTPS (opsional)
@@ -151,7 +145,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 4.7",
+                "message": "Welcome to SSO 4.8",
                 "success": True
             })
 
