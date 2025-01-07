@@ -64,7 +64,7 @@ def sso_check():
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
             token_value = token.split(" ", 1)[1]
-            # userinfo = client.get_user_info(token_value)
+            userinfo = client.get_user_info(token_value)
 
             return jsonify({
                 "success": True,
