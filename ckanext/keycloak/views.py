@@ -56,6 +56,28 @@ def sso():
         return tk.abort(500, "Error getting auth url: {}".format(e))
     return tk.redirect_to(auth_url)
 
+def sso_check():
+    log.info("SSO Login")
+    try:
+        token = request.headers.get("Authorization")
+        if token:
+            if not token.startswith("Bearer "):
+                return jsonify({"error": "Invalid authorization format"}), 400
+            token_value = token.split(" ", 1)[1]
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
+            data = get_profile_by_username(username)
+
+            return jsonify({
+                "data": data,
+                "success": True,
+                "username": username
+            })
+    except Exception as e:
+        log.error("Error getting auth url: {}".format(e))
+        return tk.abort(500, "Error getting auth url: {}".format(e))
+    return jsonify({"success": False, "error": str(e)}), 500
+
 def sso_login():
     try:
         data = tk.request.args
@@ -151,6 +173,7 @@ def sso_login_welcome():
             })
 
 keycloak.add_url_rule('/sso', view_func=sso)
+keycloak.add_url_rule('/sso_check', view_func=sso_check)
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
