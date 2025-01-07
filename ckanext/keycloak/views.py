@@ -62,6 +62,7 @@ def sso_check():
     log.info("SSO Login")
     try:
         token = request.headers.get("Authorization")
+        cookies = request.headers.get("Cookie")
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
@@ -90,7 +91,11 @@ def sso_check():
 
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
-                return response
+                # return response
+                return jsonify({
+                        "cookies": cookies,
+                        "success": True
+                    })
             else:
                 return tk.redirect_to(tk.url_for('user.login'))
     except Exception as e:
