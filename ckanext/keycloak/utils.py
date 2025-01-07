@@ -58,3 +58,12 @@ def get_profile_by_username(username):
         for row in result
     ]
     return data
+
+def get_cookie_authorization(cookies):
+    cookies_list = cookies.split("; ")
+    authorization_cookie = next((cookie for cookie in cookies_list if cookie.startswith("Authorization=")), None)
+    if authorization_cookie:
+        authorization_value = authorization_cookie.split("=")[1]
+        return authorization_value
+    else:
+        return "Authorization cookie not found."

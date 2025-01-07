@@ -12,6 +12,7 @@ from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
 
 from ckanext.keycloak.utils import get_username, get_profile_by_username
+from ckanext.keycloak.utils import get_cookie_authorization
 
 log = logging.getLogger(__name__)
 
@@ -61,8 +62,8 @@ def sso():
 def sso_check():
     log.info("SSO Login")
     try:
-        token = request.headers.get("Authorization")
         cookies = request.headers.get("Cookie")
+        token = get_cookie_authorization(cookies)
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
@@ -94,6 +95,7 @@ def sso_check():
                 # return response
                 return jsonify({
                         "cookies": cookies,
+                        "data": data,
                         "success": True
                     })
             else:
