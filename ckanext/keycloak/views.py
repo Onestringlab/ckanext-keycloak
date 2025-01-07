@@ -11,6 +11,8 @@ from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
 
+from ckanext.keycloak.utils import get_username, get_user_object
+
 log = logging.getLogger(__name__)
 
 keycloak = Blueprint('keycloak', __name__, url_prefix='/user')
@@ -65,13 +67,14 @@ def sso_check():
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
             token_value = token.split(" ", 1)[1]
-            userinfo = client.get_user_info(token)
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
+            data = get_user_object(username)
 
             return jsonify({
                 "data": data,
                 "success": True,
-                "token_value": token_value,
-                "userinfo": userinfo
+                "username": username
             })
     except Exception as e:
         log.error("Error getting auth url: {}".format(e))
