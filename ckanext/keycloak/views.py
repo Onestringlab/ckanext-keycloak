@@ -96,13 +96,14 @@ def sso_check():
                 return jsonify({
                         "cookies": cookies,
                         "data": data,
+                        "tk" : tk.url_for('user.login'),
                         "success": True
                     })
             else:
-                return tk.redirect_to(tk.url_for('user.login'))
+                return tk.redirect_to(server_url)
     except Exception as e:
         log.error(e)
-    return tk.redirect_to('https://fe-demo.data.go.id/login')
+    return tk.redirect_to(server_url)
 
 def sso_login():
     try:
