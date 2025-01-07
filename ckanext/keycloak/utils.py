@@ -6,6 +6,14 @@ from sqlalchemy import or_
 from ckan.logic import get_action
 from ckan.model import Package, User, Group, Member, meta
 
+def query_custom(query, params=None):
+    """
+    Helper function untuk menjalankan query ke database CKAN.
+    """
+    session = meta.Session
+    result = session.execute(query, params or {})
+    return result.fetchall()
+
 def get_username(jwt_token):
     try:
         # Dekode JWT tanpa memvalidasi signature dan expiration
