@@ -69,21 +69,38 @@ def sso_check():
             _, email = get_username(token_value)
             username = email.split('@')[0]
             data = get_profile_by_username(username)
+            if data:
+                user_dict = {
+                    'name': helpers.ensure_unique_username_from_email(userinfo['email']),
+                    'email': userinfo['email'],
+                    'password': helpers.generate_password(),
+                    'fullname': helpers.ensure_unique_username_from_email(userinfo['email']), #userinfo['fullname'],
+                    'plugin_extras': {
+                        'idp': 'openid'
+                    }
+                }
+                # log.info(user_dict)
+                context = {"model": model, "session": model.Session}
+                g.user_obj = helpers.process_user(user_dict)
+                g.user = g.user_obj.name
+                context['user'] = g.user
+                context['auth_user_obj'] = g.user_obj
 
-            return jsonify({
-                "data": data,
-                "success": True,
-                "username": username
-            })
+                response = tk.redirect_to(tk.url_for('user.me', context))
+
+                _log_user_into_ckan(response)
+                log.info("Logged in success")
+                return response
+            else:
+                return tk.redirect_to(tk.url_for('user.login'))
     except Exception as e:
-        log.error("Error getting auth url: {}".format(e))
-        return tk.abort(500, "Error getting auth url: {}".format(e))
-    return jsonify({"success": False}), 500
+        log.error(e)
+        return tk.redirect_to(tk.url_for('user.login'))
 
 def sso_login():
     try:
         data = tk.request.args
-        log.info(f"Data--------------: {data}")
+        # log.info(f"Data: {data}")
         token = client.get_token(data['code'], redirect_uri)
         # log.info(f"Token: {token}")
         userinfo = client.get_user_info(token)
