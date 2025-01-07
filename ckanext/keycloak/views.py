@@ -71,10 +71,10 @@ def sso_check():
             data = get_profile_by_username(username)
             if data:
                 user_dict = {
-                    'name': helpers.ensure_unique_username_from_email(userinfo['email']),
-                    'email': userinfo['email'],
+                    'name': helpers.ensure_unique_username_from_email(email),
+                    'email': email,
                     'password': helpers.generate_password(),
-                    'fullname': helpers.ensure_unique_username_from_email(userinfo['email']), #userinfo['fullname'],
+                    'fullname': helpers.ensure_unique_username_from_email(email), #userinfo['fullname'],
                     'plugin_extras': {
                         'idp': 'openid'
                     }
