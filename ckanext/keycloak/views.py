@@ -92,7 +92,7 @@ def sso_check():
                 log.info("Logged in success")
                 return response
             else:
-                return tk.redirect_to('https://fe-demo.data.go.id/login')
+                return tk.redirect_to(tk.url_for('user.login'))
     except Exception as e:
         log.error(e)
     return tk.redirect_to('https://fe-demo.data.go.id/login')
