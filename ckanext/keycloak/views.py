@@ -64,14 +64,12 @@ def sso_check():
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
             token_value = token.split(" ", 1)[1]
-            _, email = get_username(token_value)
-            username = email.split('@')[0]
-            data = get_profile_by_username(username)
+            userinfo = client.get_user_info(token_value)
 
             return jsonify({
                 "data": data,
                 "success": True,
-                "username": username
+                "userinfo": userinfo
             })
     except Exception as e:
         log.error("Error getting auth url: {}".format(e))
