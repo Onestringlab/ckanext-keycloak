@@ -59,6 +59,7 @@ def sso():
 def sso_check():
     log.info("SSO Login")
     try:
+        data = tk.request.args
         token = request.headers.get("Authorization")
         if token:
             if not token.startswith("Bearer "):
@@ -67,6 +68,7 @@ def sso_check():
             userinfo = client.get_user_info(token)
 
             return jsonify({
+                "data": data,
                 "success": True,
                 "token_value": token_value,
                 "userinfo": userinfo
@@ -79,7 +81,7 @@ def sso_check():
 def sso_login():
     try:
         data = tk.request.args
-        # log.info(f"Data: {data}")
+        log.info(f"Data: {data}")
         token = client.get_token(data['code'], redirect_uri)
         # log.info(f"Token: {token}")
         userinfo = client.get_user_info(token)
