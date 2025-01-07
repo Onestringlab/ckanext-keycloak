@@ -95,7 +95,7 @@ def sso_check():
                 return tk.redirect_to(tk.url_for('user.login'))
     except Exception as e:
         log.error(e)
-        return tk.redirect_to(tk.url_for('user.login'))
+    return tk.redirect_to(tk.url_for('user.login'))
 
 def sso_login():
     try:
