@@ -76,7 +76,7 @@ def sso_check():
     except Exception as e:
         log.error("Error getting auth url: {}".format(e))
         return tk.abort(500, "Error getting auth url: {}".format(e))
-    return jsonify({"success": False, "error": str(e)}), 500
+    return jsonify({"success": False}), 500
 
 def sso_login():
     try:
