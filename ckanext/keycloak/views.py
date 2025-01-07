@@ -11,7 +11,7 @@ from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
 
-from ckanext.keycloak.utils import get_username, get_user_object
+from ckanext.keycloak.utils import get_username, get_profile_by_username
 
 log = logging.getLogger(__name__)
 
@@ -61,7 +61,6 @@ def sso():
 def sso_check():
     log.info("SSO Login")
     try:
-        data = tk.request.args
         token = request.headers.get("Authorization")
         if token:
             if not token.startswith("Bearer "):
@@ -69,7 +68,7 @@ def sso_check():
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
             username = email.split('@')[0]
-            data = get_user_object(username)
+            data = get_profile_by_username(username)
 
             return jsonify({
                 "data": data,
