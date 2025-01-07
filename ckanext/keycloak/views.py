@@ -53,6 +53,7 @@ def sso():
     log.info("SSO Login")
     auth_url = None
     try:
+        log.info(f"{client.get_auth_url(redirect_uri=redirect_uri)}")
         auth_url = client.get_auth_url(redirect_uri=redirect_uri)
     except Exception as e:
         log.error("Error getting auth url: {}".format(e))
