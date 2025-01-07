@@ -67,7 +67,6 @@ def sso_check():
             userinfo = client.get_user_info(token_value)
 
             return jsonify({
-                "data": data,
                 "success": True,
                 "userinfo": userinfo
             })
