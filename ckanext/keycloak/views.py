@@ -81,7 +81,7 @@ def sso_check():
 def sso_login():
     try:
         data = tk.request.args
-        log.info(f"Data: {data}")
+        log.info(f"Data--------------: {data}")
         token = client.get_token(data['code'], redirect_uri)
         # log.info(f"Token: {token}")
         userinfo = client.get_user_info(token)
