@@ -24,6 +24,7 @@ realm_name = tk.config.get('ckanext.keycloak.realm_name', environ.get('CKANEXT__
 redirect_uri = tk.config.get('ckanext.keycloak.redirect_uri', environ.get('CKANEXT__KEYCLOAK__REDIRECT_URI'))
 client_secret_key = tk.config.get('ckanext.keycloak.client_secret_key', environ.get('CKANEXT__KEYCLOAK__CLIENT_SECRET_KEY'))
 logout_uri = tk.config.get('ckanext.keycloak.logout_uri', environ.get('CKANEXT__KEYCLOAK__LOGOUT_URI'))
+ckan_url = tk.config.get('ckanext.keycloak.CKAN_URL', environ.get('CKANEXT__KEYCLOAK__CKAN_URL'))
 
 client = KeycloakClient(server_url, client_id, realm_name, client_secret_key)
 
@@ -100,6 +101,7 @@ def sso_check():
                 context['auth_user_obj'] = g.user_obj
 
                 response = tk.redirect_to(tk.url_for('user.me', context))
+                response = tk.redirect_to(ckan_url)
 
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
