@@ -107,13 +107,13 @@ def sso_check():
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
                 log.info(f"{tk.url_for('user.login')}")
-                # return response
-                return jsonify({
-                        # "cookies": cookies,
-                        "token": token,
-                        "data": data,
-                        "success": True
-                    })
+                return response
+                # return jsonify({
+                #         # "cookies": cookies,
+                #         "token": token,
+                #         "data": data,
+                #         "success": True
+                #     })
             else:
                 return tk.redirect_to(server_url)
     except Exception as e:
