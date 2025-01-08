@@ -109,7 +109,7 @@ def sso_check():
                 log.info(f"{tk.url_for('user.login')}")
                 # return response
                 return jsonify({
-                        "cookies": cookies,
+                        # "cookies": cookies,
                         "token": token,
                         "data": data,
                         "success": True
