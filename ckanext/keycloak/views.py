@@ -74,7 +74,7 @@ def sso_check():
     try:
         token = request.headers.get("Authorization") 
         cookies = request.headers.get("Cookie")
-        token_cookies = get_cookie_authorization(cookies)
+        token = get_cookie_authorization(cookies)
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
