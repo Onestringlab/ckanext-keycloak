@@ -101,8 +101,8 @@ def sso_check():
                 context['user'] = g.user
                 context['auth_user_obj'] = g.user_obj
 
-                # response = tk.redirect_to(tk.url_for('user.me', context))
-                response = tk.redirect_to(ckan_url)
+                response = tk.redirect_to(tk.url_for('user.me', context))
+                # response = tk.redirect_to(ckan_url)
 
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
