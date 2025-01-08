@@ -113,10 +113,11 @@ def sso_check():
                 #         "success": True
                 #     })
             else:
+                log.error(f"Invalid User")
                 return tk.redirect_to(server_url)
     except Exception as e:
-        log.error(e)
-    return tk.redirect_to(server_url)
+        log.error(f"Exception: {e}")
+        return tk.redirect_to(server_url)
 
 def sso_login():
     try:
