@@ -106,13 +106,13 @@ def sso_check():
                 log.info("Logged in success")
                 # response = tk.redirect_to(ckan_url)
 
-                return tk.redirect_to(ckan_url)
-                # return jsonify({
-                #         # "cookies": cookies,
-                #         "token": token,
-                #         "data": data,
-                #         "success": True
-                #     })
+                # return tk.redirect_to(ckan_url)
+                return jsonify({
+                        # "cookies": cookies,
+                        "token": token,
+                        "data": data,
+                        "success": True
+                    })
             else:
                 return tk.redirect_to(server_url)
     except Exception as e:
