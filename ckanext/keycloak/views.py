@@ -11,8 +11,8 @@ from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
 
-from ckanext.keycloak.utils import get_username
-from ckanext.keycloak.utils import get_cookie_authorization
+from ckanext.keycloak.utils import get_username, get_profile_by_username
+# from ckanext.keycloak.utils import get_cookie_authorization
 
 log = logging.getLogger(__name__)
 
