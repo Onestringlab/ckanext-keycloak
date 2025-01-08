@@ -69,9 +69,6 @@ def sso():
         return tk.abort(500, "Error getting auth url: {}".format(e))
     return tk.redirect_to(auth_url)
 
-
-
-
 def sso_check():
     log.info("SSO Login")
     try:
