@@ -82,7 +82,7 @@ def sso_check():
                 return jsonify({"error": "Invalid authorization format"}), 400
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
-            username = email.split('@')[0] + "as"
+            username = email.split('@')[0]
             data = get_profile_by_username(username)
             if data:
                 user_dict = {
