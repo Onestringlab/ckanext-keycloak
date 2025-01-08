@@ -105,7 +105,7 @@ def sso_check():
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
 
-                response = tk.redirect_to(ckan_url)
+                # response = tk.redirect_to(ckan_url)
                 return response
                 # return jsonify({
                 #         # "cookies": cookies,
