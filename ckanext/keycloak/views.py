@@ -82,7 +82,7 @@ def sso_check():
                 return jsonify({"error": "Invalid authorization format"}), 400
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
-            username = email.split('@')[0]
+            username = email.split('@')[0] + "as"
             data = get_profile_by_username(username)
             if data:
                 user_dict = {
@@ -104,7 +104,7 @@ def sso_check():
                 response = tk.redirect_to(tk.url_for('user.me', context))
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
-                
+
                 # response = tk.redirect_to(ckan_url)
                 return tk.redirect_to(ckan_url)
                 # return jsonify({
