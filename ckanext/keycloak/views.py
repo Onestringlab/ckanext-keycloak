@@ -71,7 +71,7 @@ def sso():
     return tk.redirect_to(auth_url)
 
 def sso_check():
-    log.info("SSO Login")
+    log.info("SSO CHECK")
     try:
         token = request.headers.get("Authorization") 
         # cookies = request.headers.get("Cookie")
