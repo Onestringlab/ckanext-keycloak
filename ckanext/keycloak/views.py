@@ -72,8 +72,9 @@ def sso():
 def sso_check():
     log.info("SSO Login")
     try:
+        token = request.headers.get("Authorization") 
         cookies = request.headers.get("Cookie")
-        token = get_cookie_authorization(cookies)
+        token_cookies = get_cookie_authorization(cookies)
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
@@ -106,6 +107,7 @@ def sso_check():
                 # return response
                 return jsonify({
                         "cookies": cookies,
+                        "token_cookies": token_cookies,
                         "data": data,
                         "success": True
                     })
@@ -205,7 +207,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 5.1",
+                "message": "Welcome to SSO 6.1",
                 "success": True
             })
 
