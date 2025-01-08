@@ -72,7 +72,7 @@ def sso():
 def sso_check():
     log.info("SSO Login")
     try:
-        token = request.headers.get("Authorization") 
+        # token = request.headers.get("Authorization") 
         cookies = request.headers.get("Cookie")
         token = get_cookie_authorization(cookies)
         if token:
@@ -107,7 +107,7 @@ def sso_check():
                 # return response
                 return jsonify({
                         "cookies": cookies,
-                        "token_cookies": token_cookies,
+                        "token": token,
                         "data": data,
                         "success": True
                     })
