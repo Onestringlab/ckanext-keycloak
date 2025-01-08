@@ -77,8 +77,9 @@ def sso_check():
         cookies = request.headers.get("Cookie")
         token = str(get_cookie_authorization(cookies))
         log.info(f"Token: {token}")
+        token = "Bearer asdfsadfsdf"
         if token:
-            if not token.startswith("Bearer "):
+            if isinstance(token, str) and token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
