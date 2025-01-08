@@ -62,6 +62,7 @@ def get_profile_by_username(username):
 def get_cookie_authorization(cookies):
     cookies_list = cookies.split("; ")
     for cookie in cookies_list:
+        cookie = str(cookie)
         if cookie.startswith("Authorization="):
             authorization_cookie = cookie
     if authorization_cookie:
