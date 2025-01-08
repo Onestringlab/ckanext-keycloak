@@ -74,8 +74,8 @@ def sso_check():
     log.info("SSO CHECK")
     try:
         token = request.headers.get("Authorization") 
-        cookies = request.headers.get("Cookie")
-        token_cookies = str(get_cookie_authorization(cookies))
+        # cookies = request.headers.get("Cookie")
+        # token_cookies = str(get_cookie_authorization(cookies))
         log.info(f"{token}")
         if token:
             # if not token.startswith("Bearer "):
