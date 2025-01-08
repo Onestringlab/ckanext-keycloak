@@ -105,13 +105,13 @@ def sso_check():
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
                 response = tk.redirect_to(ckan_url)
-                return response
-                # return jsonify({
-                #         # "cookies": cookies,
-                #         "token": token,
-                #         "data": data,
-                #         "success": True
-                #     })
+                # return response
+                return jsonify({
+                        # "cookies": cookies,
+                        "token": token,
+                        "data": data,
+                        "success": True
+                    })
             else:
                 log.error(f"Invalid User")
                 return tk.redirect_to(server_url)
