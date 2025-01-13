@@ -242,7 +242,7 @@ def sso_user_delete():
             context = {'user':username, 'ignore_auth': True}
             response = get_action('user_delete')(context, params)
 
-            return jsonify({"success": True, "email": email, "response": response})
+            return jsonify({"success": True, "email": email, "username": username})
         else:
             return jsonify({"success": False, "email": email})
     except Exception as e:
