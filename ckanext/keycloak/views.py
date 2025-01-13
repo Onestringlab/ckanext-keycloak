@@ -236,7 +236,7 @@ def sso_user_delete():
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
             username = email.split('@')[0]
-            get_profile_by_username(username)
+            profile_username = get_profile_by_username(username)
 
             context = {'user':username, 'ignore_auth': False}
             response = get_action('user_delete')(context, params)
