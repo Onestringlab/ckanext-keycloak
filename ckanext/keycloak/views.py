@@ -83,13 +83,14 @@ def sso_check():
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
             username = email.split('@')[0]
+            fullname = email.split('@')[0] +' '+email.split('@')[1]
             data = get_profile_by_username(username)
             if data:
                 user_dict = {
                     'name': helpers.ensure_unique_username_from_email(email),
                     'email': email,
                     'password': helpers.generate_password(),
-                    'fullname': helpers.ensure_unique_username_from_email(email), #userinfo['fullname'],
+                    'fullname': fullname,
                     'plugin_extras': {
                         'idp': 'openid'
                     }
@@ -127,13 +128,15 @@ def sso_login():
         token = client.get_token(data['code'], redirect_uri)
         # log.info(f"Token: {token}")
         userinfo = client.get_user_info(token)
+        email = userinfo['email']
+        fullname = email.split('@')[0] +' '+email.split('@')[1]
         log.info("SSO Login: {}".format(userinfo))
         if userinfo:
             user_dict = {
-                'name': helpers.ensure_unique_username_from_email(userinfo['email']),
-                'email': userinfo['email'],
+                'name': helpers.ensure_unique_username_from_email(email),
+                'email': email,
                 'password': helpers.generate_password(),
-                'fullname': helpers.ensure_unique_username_from_email(userinfo['email']), #userinfo['fullname'],
+                'fullname': fullname,
                 'plugin_extras': {
                     'idp': 'openid'
                 }
