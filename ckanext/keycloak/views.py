@@ -213,6 +213,37 @@ def sso_login_welcome():
                 "success": True
             })
 
+def sso_user_delete():
+    try:
+        payload = request.get_json()
+        sort = payload.get('username')
+        sort = payload.get('userid')
+
+        if userid:
+            user_id = userid
+        if username:
+            user_id = username
+
+        params = {'id': user_id}
+
+        email = "anonymous@somedomain.com"
+        username = "anonymous"
+        token = request.headers.get("Authorization")
+        if token:
+            if not token.startswith("Bearer "):
+                return jsonify({"error": "Invalid authorization format"}), 400
+            token_value = token.split(" ", 1)[1]
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
+            get_profile_by_username(username)
+
+            context = {'user':username, 'ignore_auth': False}
+            response = get_action('user_delete')(context, params)
+
+        return jsonify({"success": True, "email": email, "data": user_id})
+    except Exception as e:
+        return jsonify({"error": f"{str(e)}"}), 400
+
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET'])
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
@@ -220,6 +251,7 @@ keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST','GET'])
+keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
 
 def get_blueprint():
     return keycloak
