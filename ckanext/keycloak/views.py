@@ -5,8 +5,9 @@ import ckan.plugins as plugins
 import ckanext.keycloak.helpers as helpers
 
 from os import environ
-from ckan.common import g, session, config
+from ckan.logic import get_action
 from ckan.plugins import toolkit as tk
+from ckan.common import g, session, config
 from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
