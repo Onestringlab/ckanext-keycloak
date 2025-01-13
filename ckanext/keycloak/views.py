@@ -83,7 +83,7 @@ def sso_check():
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
             username = email.split('@')[0]
-            fullname = email.split('@')[0] +' '+email.split('@')[1]
+            fullname = email.replace('@', ' ')
             data = get_profile_by_username(username)
             if data:
                 user_dict = {
@@ -91,9 +91,7 @@ def sso_check():
                     'email': email,
                     'password': helpers.generate_password(),
                     'fullname': fullname,
-                    'plugin_extras': {
-                        'idp': 'openid'
-                    }
+                    'plugin_extras': ''
                 }
                 # log.info(user_dict)
                 context = {"model": model, "session": model.Session}
@@ -129,7 +127,7 @@ def sso_login():
         # log.info(f"Token: {token}")
         userinfo = client.get_user_info(token)
         email = userinfo['email']
-        fullname = email.split('@')[0] +' '+email.split('@')[1]
+        fullname = email.replace('@', ' ')
         log.info("SSO Login: {}".format(userinfo))
         if userinfo:
             user_dict = {
@@ -137,9 +135,7 @@ def sso_login():
                 'email': email,
                 'password': helpers.generate_password(),
                 'fullname': fullname,
-                'plugin_extras': {
-                    'idp': 'openid'
-                }
+                'plugin_extras': ''
             }
             # log.info(user_dict)
             context = {"model": model, "session": model.Session}
