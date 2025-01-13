@@ -216,8 +216,8 @@ def sso_login_welcome():
 def sso_user_delete():
     try:
         payload = request.get_json()
-        sort = payload.get('username')
-        sort = payload.get('userid')
+        username = payload.get('username')
+        userid = payload.get('userid')
 
         if userid:
             user_id = userid
