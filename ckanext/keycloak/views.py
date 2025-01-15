@@ -78,45 +78,56 @@ def sso_check():
         # cookies = request.headers.get("Cookie")
         # token_cookies = str(get_cookie_authorization(cookies))
         # log.info(f"{token}")
-        if token:
-            if not token.startswith("Bearer "):
-                return jsonify({"error": "Invalid authorization format"}), 400
-            token_value = token.split(" ", 1)[1]
-            _, email = get_username(token_value)
-            username = email.split('@')[0]
-            fullname = email.replace('@', ' ')
-            data = get_profile_by_username(username)
-            if data:
-                user_dict = {
-                    'name': helpers.ensure_unique_username_from_email(email),
-                    'email': email,
-                    'password': helpers.generate_password(),
-                    'fullname': fullname,
-                    'plugin_extras': ''
-                }
-                # log.info(user_dict)
-                context = {"model": model, "session": model.Session}
-                g.user_obj = helpers.process_user(user_dict)
-                g.user = g.user_obj.name
-                context['user'] = g.user
-                context['auth_user_obj'] = g.user_obj
+        if not token:
+            log.warning("Authorization header is missing")
+            response = jsonify({"error": "Authorization header is required"})
+            response.status_code = 401
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            return response
+        
+        if not token.startswith("Bearer "):
+            log.warning("Invalid authorization format")
+            response = jsonify({"error": "Invalid authorization format"})
+            response.status_code = 400
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            return response
 
-                response = tk.redirect_to(tk.url_for('user.me', context))
-                _log_user_into_ckan(response)
-                log.info("Logged in success")
-                response.headers["Access-Control-Allow-Origin"] = "*"
+        token_value = token.split(" ", 1)[1]
+        _, email = get_username(token_value)
+        username = email.split('@')[0]
+        fullname = email.replace('@', ' ')
+        data = get_profile_by_username(username)
+        if data:
+            user_dict = {
+                'name': helpers.ensure_unique_username_from_email(email),
+                'email': email,
+                'password': helpers.generate_password(),
+                'fullname': fullname,
+                'plugin_extras': ''
+            }
+            # log.info(user_dict)
+            context = {"model": model, "session": model.Session}
+            g.user_obj = helpers.process_user(user_dict)
+            g.user = g.user_obj.name
+            context['user'] = g.user
+            context['auth_user_obj'] = g.user_obj
 
-                # response = tk.redirect_to(ckan_url)
-                return response
-                # return jsonify({
-                #         # "cookies": cookies,
-                #         "token": token,
-                #         "data": data,
-                #         "success": True
-                #     })
-            else:
-                log.info(f"Invalid User")
-                return tk.redirect_to(server_url)
+            response = tk.redirect_to(tk.url_for('user.me', context))
+            _log_user_into_ckan(response)
+            log.info("Logged in success")
+            response.headers["Access-Control-Allow-Origin"] = "*"
+
+            # response = tk.redirect_to(ckan_url)
+            return response
+            # return jsonify({
+            #         # "cookies": cookies,
+            #         "token": token,
+            #         "data": data,
+            #         "success": True
+            #     })
+        else:
+            log.info(f"Invalid User")
+            return tk.redirect_to(server_url)
     except Exception as e:
         log.info(f"Exception: {e}")
     return tk.redirect_to(server_url)
