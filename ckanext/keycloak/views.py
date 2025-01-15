@@ -74,8 +74,8 @@ def sso():
 def sso_check():
     log.info("SSO CHECK")
     try:
-        # token = request.headers.get("Authorization") 
-        token = request.args.get('token')
+        token = request.headers.get("Authorization") 
+        # token = request.args.get('token')
         # cookies = request.headers.get("Cookie")
         # token_cookies = str(get_cookie_authorization(cookies))
         # log.info(f"{token}")
