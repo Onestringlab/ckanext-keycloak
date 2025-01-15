@@ -78,6 +78,14 @@ def sso_check():
         # cookies = request.headers.get("Cookie")
         # token_cookies = str(get_cookie_authorization(cookies))
         # log.info(f"{token}")
+
+        if request.method == 'OPTIONS':
+            response = jsonify({"message": "Preflight request successful"})
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+            response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type"
+            return response
+
         if not token:
             log.warning("Authorization header is missing")
             response = jsonify({"error": "Authorization header is required"})
@@ -261,7 +269,7 @@ def sso_user_delete():
         return jsonify({"error": f"{str(e)}"}), 400
 
 keycloak.add_url_rule('/sso', view_func=sso)
-keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET'])
+keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','OPTIONS'])
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
