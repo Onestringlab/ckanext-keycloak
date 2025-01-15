@@ -104,6 +104,7 @@ def sso_check():
                 response = tk.redirect_to(tk.url_for('user.me', context))
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
+                response.headers["Access-Control-Allow-Origin"] = "*"
 
                 # response = tk.redirect_to(ckan_url)
                 return response
