@@ -253,6 +253,54 @@ def sso_check_post():
         log.error(e)
         return tk.redirect_to(tk.url_for('user.login'))
 
+def sso_check_post_auth():
+    try:
+        email = 'anonymous@somedomain.com'
+        fullname = email.replace('@', ' ')
+
+        # Mengambil header Authorization
+        token = request.headers.get('Authorization')
+        log.info(f"Authorization Header: {token}")
+
+        if token:
+            if not token.startswith("Bearer "):
+                return jsonify({"error": "Invalid authorization format"}), 400
+            
+            # Ekstraksi token dari header Authorization
+            token_value = token.split(" ", 1)[1]
+            log.info(f"token_value: {token_value}")
+            
+            # Proses validasi token (sesuaikan dengan kebutuhan Anda)
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
+            fullname = email.replace('@', ' ')
+            data = get_profile_by_username(username)
+
+            if email:
+                user_dict = {
+                    'name': helpers.ensure_unique_username_from_email(email),
+                    'email': email,
+                    'password': helpers.generate_password(),
+                    'fullname': fullname,
+                    'plugin_extras': ''
+                }
+                # log.info(user_dict)
+                context = {"model": model, "session": model.Session}
+                g.user_obj = helpers.process_user(user_dict)
+                g.user = g.user_obj.name
+                context['user'] = g.user
+                context['auth_user_obj'] = g.user_obj
+
+                # Redirect ke halaman user setelah sukses login
+                log.info("Logged in success")
+                return redirect(tk.url_for('user.me', context))
+            else:
+                return redirect(tk.url_for('user.login'))
+        else:
+            return jsonify({"error": "Authorization header is missing"}), 401
+    except Exception as e:
+        log.error(e)
+        return redirect(tk.url_for('user.login'))
 
 def reset_password():
     email = tk.request.form.get('user', None)
@@ -350,6 +398,7 @@ keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET','
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
 keycloak.add_url_rule('/sso_check_get', view_func=sso_check_get)
 keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
+keycloak.add_url_rule('/sso_check_post_auth', view_func=sso_check_post_auth, methods=['POST'])
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
