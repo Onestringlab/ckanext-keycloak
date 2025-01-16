@@ -159,13 +159,63 @@ def sso_login():
 
 def sso_check_get():
     try:
-        data = tk.request.args
-        token = request.args.get('token')
-        log.info(f"Data: {data}")
-        # token = client.get_token(data['code'], redirect_uri)
-        log.info(f"Token: {token}")
         email = 'anonymous@somedomain.com'
         fullname = email.replace('@', ' ')
+
+        data = tk.request.args
+        token = request.args.get('token')
+
+        log.info(f"Data: {data}")
+        log.info(f"Token: {token}")
+
+        if token:
+            if not token.startswith("Bearer "):
+                return jsonify({"error": "Invalid authorization format"}), 400
+            
+            token_value = token.split(" ", 1)[1]
+            log.info(f"token_value: {token_value}")
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
+            fullname = email.replace('@', ' ')
+            data = get_profile_by_username(username)
+
+            if email:
+                user_dict = {
+                    'name': helpers.ensure_unique_username_from_email(email),
+                    'email': email,
+                    'password': helpers.generate_password(),
+                    'fullname': fullname,
+                    'plugin_extras': ''
+                }
+                # log.info(user_dict)
+                context = {"model": model, "session": model.Session}
+                g.user_obj = helpers.process_user(user_dict)
+                g.user = g.user_obj.name
+                context['user'] = g.user
+                context['auth_user_obj'] = g.user_obj
+
+                response = tk.redirect_to(tk.url_for('user.me', context))
+
+                _log_user_into_ckan(response)
+                log.info("Logged in success")
+                return response
+            else:
+                return tk.redirect_to(tk.url_for('user.login'))
+    except Exception as e:
+        log.error(e)
+        return tk.redirect_to(tk.url_for('user.login'))
+
+def sso_check_post():
+    try:
+        email = 'anonymous@somedomain.com'
+        fullname = email.replace('@', ' ')
+
+        data = tk.request.form
+        token = request.form.get('token')
+
+        log.info(f"Data: {data}")
+        log.info(f"Token: {token}")
+
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
