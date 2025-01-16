@@ -171,6 +171,7 @@ def sso_check_get():
                 return jsonify({"error": "Invalid authorization format"}), 400
             
             token_value = token.split(" ", 1)[1]
+            log.info(f"token_value: {token_value}")
             _, email = get_username(token_value)
             username = email.split('@')[0]
             fullname = email.replace('@', ' ')
