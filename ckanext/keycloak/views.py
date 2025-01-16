@@ -307,7 +307,7 @@ def sso_logout():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 16.1",
+                "message": "Welcome to SSO 16.2",
                 "success": True
             })
 
