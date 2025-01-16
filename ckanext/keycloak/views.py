@@ -54,24 +54,24 @@ def _log_user_into_ckan(resp):
     log.info(u'User {0}<{1}> logged in successfully'.format(g.user_obj.name, g.user_obj.email))
 
 def sso():
-    log.info("SSO Login")
-    auth_url = None
-    try:
-        log.info(f"{client.get_auth_url(redirect_uri=redirect_uri)}")
-        auth_url = client.get_auth_url(redirect_uri=redirect_uri)
-    except Exception as e:
-        log.error("Error getting auth url: {}".format(e))
-        return tk.abort(500, "Error getting auth url: {}".format(e))
-    return tk.redirect_to(auth_url)
-
+    # log.info("SSO Login")
+    # auth_url = None
     # try:
-    #     auth_url = server_url
-    #     auth_url = (f"{auth_url}?redirect_uri={redirect_uri}")
-    #     log.info(f"{auth_url}")
+    #     log.info(f"{client.get_auth_url(redirect_uri=redirect_uri)}")
+    #     auth_url = client.get_auth_url(redirect_uri=redirect_uri)
     # except Exception as e:
     #     log.error("Error getting auth url: {}".format(e))
     #     return tk.abort(500, "Error getting auth url: {}".format(e))
     # return tk.redirect_to(auth_url)
+
+    try:
+        auth_url = server_url
+        auth_url = (f"{auth_url}?redirect_uri={redirect_uri}")
+        log.info(f"{auth_url}")
+    except Exception as e:
+        log.error("Error getting auth url: {}".format(e))
+        return tk.abort(500, "Error getting auth url: {}".format(e))
+    return tk.redirect_to(auth_url)
 
 def sso_check():
     log.info("SSO CHECK")
@@ -405,13 +405,14 @@ keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST','GET'])
-keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
 
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
-keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST'])
-keycloak.add_url_rule('/sso_check_get', view_func=sso_check_get)
+# keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST'])
+# keycloak.add_url_rule('/sso_check_get', view_func=sso_check_get)
 keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
-keycloak.add_url_rule('/sso_check_post_auth', view_func=sso_check_post_auth, methods=['POST'])
+# keycloak.add_url_rule('/sso_check_post_auth', view_func=sso_check_post_auth, methods=['POST'])
+
+keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
 
 def get_blueprint():
     return keycloak
