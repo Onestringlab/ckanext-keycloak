@@ -293,6 +293,9 @@ def sso_check_post_auth():
 
                 # Redirect ke halaman user setelah sukses login
                 response = tk.redirect_to(tk.url_for('user.me', context))
+                response.headers['Access-Control-Allow-Origin'] = '*'
+                response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
+                response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
                 _log_user_into_ckan(response)
                 log.info("Logged in success")
                 return response
