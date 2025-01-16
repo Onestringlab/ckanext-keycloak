@@ -159,38 +159,48 @@ def sso_login():
 
 def sso_check_get():
     try:
-        # data = tk.request.args
-        # log.info(f"Data: {data}")
+        data = tk.request.args
+        token = request.args.get('token')
+        log.info(f"Data: {data}")
         # token = client.get_token(data['code'], redirect_uri)
-        # log.info(f"Token: {token}")
+        log.info(f"Token: {token}")
         userinfo = 'rionorman@gmail.com'
-        # userinfo = client.get_user_info(token)
-        # email = userinfo['email']
         email = 'rionorman@gmail.com'
         fullname = email.replace('@', ' ')
         log.info("SSO Login: {}".format(userinfo))
-        if userinfo:
-            user_dict = {
-                'name': helpers.ensure_unique_username_from_email(email),
-                'email': email,
-                'password': helpers.generate_password(),
-                'fullname': fullname,
-                'plugin_extras': ''
-            }
-            # log.info(user_dict)
-            context = {"model": model, "session": model.Session}
-            g.user_obj = helpers.process_user(user_dict)
-            g.user = g.user_obj.name
-            context['user'] = g.user
-            context['auth_user_obj'] = g.user_obj
 
-            response = tk.redirect_to(tk.url_for('user.me', context))
+        if token:
+            if not token.startswith("Bearer "):
+                return jsonify({"error": "Invalid authorization format"}), 400
+            
+            token_value = token.split(" ", 1)[1]
+            # _, email = get_username(token_value)
+            # username = email.split('@')[0]
+            # fullname = email.replace('@', ' ')
+            # data = get_profile_by_username(username)
 
-            _log_user_into_ckan(response)
-            log.info("Logged in success")
-            return response
-        else:
-            return tk.redirect_to(tk.url_for('user.login'))
+            if email:
+                user_dict = {
+                    'name': helpers.ensure_unique_username_from_email(email),
+                    'email': email,
+                    'password': helpers.generate_password(),
+                    'fullname': fullname,
+                    'plugin_extras': ''
+                }
+                # log.info(user_dict)
+                context = {"model": model, "session": model.Session}
+                g.user_obj = helpers.process_user(user_dict)
+                g.user = g.user_obj.name
+                context['user'] = g.user
+                context['auth_user_obj'] = g.user_obj
+
+                response = tk.redirect_to(tk.url_for('user.me', context))
+
+                _log_user_into_ckan(response)
+                log.info("Logged in success")
+                return response
+            else:
+                return tk.redirect_to(tk.url_for('user.login'))
     except Exception as e:
         log.error(e)
         return tk.redirect_to(tk.url_for('user.login'))
