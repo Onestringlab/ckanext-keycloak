@@ -405,5 +405,12 @@ keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST','GET'])
 keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
 
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'  # Mengizinkan semua domain asal
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    return response
+
 def get_blueprint():
     return keycloak
