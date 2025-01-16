@@ -66,7 +66,7 @@ def sso():
 
     try:
         auth_url = server_url
-        auth_url = (f"{auth_url}?redirect_uri={redirect_uri}&application=ckan")
+        auth_url = (f"{auth_url}?redirect_uri={redirect_uri}")
         log.info(f"{auth_url}")
     except Exception as e:
         log.error("Error getting auth url: {}".format(e))
