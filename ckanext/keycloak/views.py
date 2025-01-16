@@ -126,13 +126,13 @@ def sso_check():
 def sso_login():
     try:
         data = tk.request.args
-        log.info(f"Data: {data}")
+        # log.info(f"Data: {data}")
         token = client.get_token(data['code'], redirect_uri)
-        log.info(f"Token: {token}")
+        # log.info(f"Token: {token}")
         userinfo = client.get_user_info(token)
         email = userinfo['email']
         fullname = email.replace('@', ' ')
-        log.info("SSO Login: {}".format(userinfo))
+        # log.info("SSO Login: {}".format(userinfo))
         if userinfo:
             user_dict = {
                 'name': helpers.ensure_unique_username_from_email(email),
@@ -167,8 +167,8 @@ def sso_check_get():
         data = tk.request.args
         token = request.args.get('token')
 
-        log.info(f"Data: {data}")
-        log.info(f"Token: {token}")
+        # log.info(f"Data: {data}")
+        # log.info(f"Token: {token}")
 
         if token:
             if not token.startswith("Bearer "):
@@ -215,15 +215,15 @@ def sso_check_post():
         data = tk.request.form
         token = request.form.get('token')
 
-        log.info(f"Data: {data}")
-        log.info(f"Token: {token}")
+        # log.info(f"Data: {data}")
+        # log.info(f"Token: {token}")
 
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
             
             token_value = token.split(" ", 1)[1]
-            log.info(f"token_value: {token_value}")
+            # log.info(f"token_value: {token_value}")
             _, email = get_username(token_value)
             username = email.split('@')[0]
             fullname = email.replace('@', ' ')
@@ -262,7 +262,7 @@ def sso_check_post_auth():
 
         # Mengambil header Authorization
         token = request.headers.get('Authorization')
-        log.info(f"Authorization Header: {token}")
+        # log.info(f"Authorization Header: {token}")
 
         if token:
             if not token.startswith("Bearer "):
@@ -270,7 +270,7 @@ def sso_check_post_auth():
             
             # Ekstraksi token dari header Authorization
             token_value = token.split(" ", 1)[1]
-            log.info(f"token_value: {token_value}")
+            # log.info(f"token_value: {token_value}")
             
             # Proses validasi token (sesuaikan dengan kebutuhan Anda)
             _, email = get_username(token_value)
