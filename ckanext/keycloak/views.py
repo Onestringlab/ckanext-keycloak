@@ -157,6 +157,44 @@ def sso_login():
         log.error(e)
         return tk.redirect_to(tk.url_for('user.login'))
 
+def sso_check_get():
+    try:
+        # data = tk.request.args
+        # log.info(f"Data: {data}")
+        # token = client.get_token(data['code'], redirect_uri)
+        # log.info(f"Token: {token}")
+        userinfo = 'rionorman@gmail.com'
+        # userinfo = client.get_user_info(token)
+        # email = userinfo['email']
+        email = 'rionorman@gmail.com'
+        fullname = email.replace('@', ' ')
+        log.info("SSO Login: {}".format(userinfo))
+        if userinfo:
+            user_dict = {
+                'name': helpers.ensure_unique_username_from_email(email),
+                'email': email,
+                'password': helpers.generate_password(),
+                'fullname': fullname,
+                'plugin_extras': ''
+            }
+            # log.info(user_dict)
+            context = {"model": model, "session": model.Session}
+            g.user_obj = helpers.process_user(user_dict)
+            g.user = g.user_obj.name
+            context['user'] = g.user
+            context['auth_user_obj'] = g.user_obj
+
+            response = tk.redirect_to(tk.url_for('user.me', context))
+
+            _log_user_into_ckan(response)
+            log.info("Logged in success")
+            return response
+        else:
+            return tk.redirect_to(tk.url_for('user.login'))
+    except Exception as e:
+        log.error(e)
+        return tk.redirect_to(tk.url_for('user.login'))
+
 
 def reset_password():
     email = tk.request.form.get('user', None)
@@ -252,6 +290,7 @@ def sso_user_delete():
 keycloak.add_url_rule('/sso', view_func=sso)
 keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET','OPTION'])
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
+keycloak.add_url_rule('/sso_check_get', view_func=/sso_check_get)
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
