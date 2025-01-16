@@ -164,20 +164,17 @@ def sso_check_get():
         log.info(f"Data: {data}")
         # token = client.get_token(data['code'], redirect_uri)
         log.info(f"Token: {token}")
-        userinfo = 'rionorman@gmail.com'
-        email = 'rionorman@gmail.com'
+        email = 'anonymous@somedomain.com'
         fullname = email.replace('@', ' ')
-        log.info("SSO Login: {}".format(userinfo))
-
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
             
             token_value = token.split(" ", 1)[1]
-            # _, email = get_username(token_value)
-            # username = email.split('@')[0]
-            # fullname = email.replace('@', ' ')
-            # data = get_profile_by_username(username)
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
+            fullname = email.replace('@', ' ')
+            data = get_profile_by_username(username)
 
             if email:
                 user_dict = {
