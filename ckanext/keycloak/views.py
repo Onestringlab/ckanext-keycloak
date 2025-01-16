@@ -11,7 +11,6 @@ from ckan.common import g, session, config
 from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
-from flask_cors import CORS
 
 from ckanext.keycloak.utils import get_username, get_profile_by_username
 # from ckanext.keycloak.utils import get_cookie_authorization
