@@ -250,7 +250,7 @@ def sso_user_delete():
         return jsonify({"error": f"{str(e)}"}), 400
 
 keycloak.add_url_rule('/sso', view_func=sso)
-keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET'])
+keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET','OPTION'])
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
