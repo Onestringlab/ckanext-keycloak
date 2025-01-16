@@ -25,7 +25,9 @@ realm_name = tk.config.get('ckanext.keycloak.realm_name', environ.get('CKANEXT__
 redirect_uri = tk.config.get('ckanext.keycloak.redirect_uri', environ.get('CKANEXT__KEYCLOAK__REDIRECT_URI'))
 client_secret_key = tk.config.get('ckanext.keycloak.client_secret_key', environ.get('CKANEXT__KEYCLOAK__CLIENT_SECRET_KEY'))
 logout_uri = tk.config.get('ckanext.keycloak.logout_uri', environ.get('CKANEXT__KEYCLOAK__LOGOUT_URI'))
-ckan_url = tk.config.get('ckanext.keycloak.CKAN_URL', environ.get('CKANEXT__KEYCLOAK__CKAN_URL'))
+ckan_url = tk.config.get('ckanext.keycloak.ckan_url', environ.get('CKANEXT__KEYCLOAK__CKAN_URL'))
+api_url = tk.config.get('ckanext.keycloak.api_url', environ.get('CKANEXT__KEYCLOAK__API_URL'))
+fe_url = tk.config.get('ckanext.keycloak.fe_url', environ.get('CKANEXT__KEYCLOAK__FE_URL'))
 
 client = KeycloakClient(server_url, client_id, realm_name, client_secret_key)
 
@@ -200,10 +202,10 @@ def sso_check_get():
                 log.info("Logged in success")
                 return response
             else:
-                return tk.redirect_to(tk.url_for('user.login'))
+                return tk.redirect_to(fe_url)
     except Exception as e:
         log.error(e)
-        return tk.redirect_to(tk.url_for('user.login'))
+        return tk.redirect_to(fe_url)
 
 def sso_check_post():
     try:
@@ -248,10 +250,10 @@ def sso_check_post():
                 log.info("Logged in success")
                 return response
             else:
-                return tk.redirect_to(tk.url_for('user.login'))
+                return tk.redirect_to(fe_url)
     except Exception as e:
         log.error(e)
-        return tk.redirect_to(tk.url_for('user.login'))
+        return tk.redirect_to(fe_url)
 
 def sso_check_post_auth():
     try:
@@ -399,16 +401,17 @@ def sso_user_delete():
         return jsonify({"error": f"{str(e)}"}), 400
 
 keycloak.add_url_rule('/sso', view_func=sso)
-keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST','GET','OPTION'])
-keycloak.add_url_rule('/sso_login', view_func=sso_login)
-keycloak.add_url_rule('/sso_check_get', view_func=sso_check_get)
-keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
-keycloak.add_url_rule('/sso_check_post_auth', view_func=sso_check_post_auth, methods=['POST'])
 keycloak.add_url_rule('/logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
 keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST','GET'])
 keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
+
+keycloak.add_url_rule('/sso_login', view_func=sso_login)
+keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST'])
+keycloak.add_url_rule('/sso_check_get', view_func=sso_check_get)
+keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
+keycloak.add_url_rule('/sso_check_post_auth', view_func=sso_check_post_auth, methods=['POST'])
 
 def get_blueprint():
     return keycloak
