@@ -117,8 +117,8 @@ def sso_check_post():
         data = tk.request.form
         token = request.form.get('token')
 
-        # log.info(f"Data: {data}")
-        # log.info(f"Token: {token}")
+        log.info(f"Data: {data}")
+        log.info(f"Token: {token}")
 
         if token:
             if not token.startswith("Bearer "):
