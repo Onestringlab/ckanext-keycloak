@@ -127,7 +127,7 @@ def sso_check_post():
             token_value = token.split(" ", 1)[1]
             log.info(f"token_value: {token_value}")
             validated = validate_token(token_value)
-            log.info(f'{validated}')
+            log.info(f'vaaliiiiidd{validated}')
             if not validated:
                 log.info(f'nooottt  {validated}')
                 return jsonify({"error": "Invalid authorization format"}), 400
