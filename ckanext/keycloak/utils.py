@@ -75,13 +75,12 @@ def get_cookie_authorization(cookies):
         return "Authorization cookie not found."
 
 
-def validate_token(accessToken):
+def validate_token(fe_url, accessToken):
     try:
         print(f"accessToken {accessToken}")
         if not accessToken:
             return jsonify({"error": "No access token provided"}), 400
 
-        fe_url = tk.config.get('ckanext.keycloak.fe_url', environ.get('CKANEXT__KEYCLOAK__FE_URL'))
         print(f"fe_url {fe_url}")
         
         # Buat URL validasi token dengan parameter token
