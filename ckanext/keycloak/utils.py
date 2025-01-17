@@ -76,8 +76,8 @@ def get_cookie_authorization(cookies):
 
 
 def validate_token(accessToken):
-    print("validate_token validate_token validate_token")
     try:
+        print(f"accessToken {accessToken}")
         if not accessToken:
             return jsonify({"error": "No access token provided"}), 400
 
