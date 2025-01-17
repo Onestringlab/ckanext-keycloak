@@ -131,7 +131,7 @@ def sso_check_post():
             log.info(f'vaaliiiiidd{validated}')
             if not validated:
                 log.info(f'nooottt  {validated}')
-                return jsonify({"error": "Invalid authorization format"}), 400
+                return tk.redirect_to(fe_url)
 
             _, email = get_username(token_value)
             username = email.split('@')[0]
