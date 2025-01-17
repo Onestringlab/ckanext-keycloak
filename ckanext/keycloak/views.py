@@ -126,6 +126,9 @@ def sso_check_post():
             
             token_value = token.split(" ", 1)[1]
             # log.info(f"token_value: {token_value}")
+            if not validate_token(token_value):
+                return jsonify({"error": "Invalid authorization format"}), 400
+                
             _, email = get_username(token_value)
             username = email.split('@')[0]
             fullname = email.replace('@', ' ')
