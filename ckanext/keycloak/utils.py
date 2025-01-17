@@ -83,7 +83,7 @@ def validate_token(accessToken):
 
         fe_url = tk.config.get('ckanext.keycloak.fe_url', environ.get('CKANEXT__KEYCLOAK__FE_URL'))
         # Buat URL validasi token dengan parameter token
-        api_url = f"{{fe_url}}/auth/validate-token?token={accessToken}"
+        api_url = f"{fe_url}/auth/validate-token?token={accessToken}"
 
         # Kirim permintaan POST ke API eksternal
         response = requests.post(api_url)
