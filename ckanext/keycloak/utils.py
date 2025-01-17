@@ -90,9 +90,10 @@ def validate_token(accessToken):
 
         # Periksa status kode dari API eksternal
         if response.status_code == 200:
-            return response
+            return jsonify({"message": "Token is valid"}), 200
         else:
-            return response
+            return jsonify({"error": "Token validation failed"}), response.status_code
+
 
     except Exception as e:
         # Tangani error yang tidak terduga
