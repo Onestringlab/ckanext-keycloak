@@ -75,21 +75,21 @@ def get_cookie_authorization(cookies):
         return "Authorization cookie not found."
 
 
-def validate_token(fe_url, accessToken):
+def validate_token(api_url, accessToken):
     # try:
     print(f"accessToken {accessToken}")
     if not accessToken:
         print(f"not accessToken")
         return jsonify({"error": "No access token provided"}), 400
 
-    print(f"fe_url {fe_url}")
+    print(f"api_url {api_url}")
     
     # Buat URL validasi token dengan parameter token
-    api_url = f"{fe_url}/auth/validate-token?token={accessToken}"
-    print(f"api_url {api_url}")
+    api_url_token = f"{fe_url}/auth/validate-token?token={accessToken}"
+    print(f"api_url_token {api_url_token}")
 
     # Kirim permintaan POST ke API eksternal
-    response = requests.post(api_url)
+    response = requests.post(api_url_token)
     print(f"response {response}")
 
     # Periksa status kode dari API eksternal
