@@ -1,4 +1,5 @@
 import jwt
+import logging
 import requests
 
 from flask import jsonify
@@ -8,6 +9,7 @@ from ckan.logic import get_action
 from ckan.plugins import toolkit as tk
 from ckan.model import Package, User, Group, Member, meta
 
+log = logging.getLogger(__name__)
 
 def query_custom(query, params=None):
     """
@@ -87,6 +89,7 @@ def validate_token(accessToken):
 
         # Kirim permintaan POST ke API eksternal
         response = requests.post(api_url)
+        log(f"{response}")
 
         # Periksa status kode dari API eksternal
         if response.status_code == 200:
