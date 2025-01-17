@@ -87,6 +87,7 @@ def validate_token(accessToken):
 
         # Kirim permintaan POST ke API eksternal
         response = requests.post(api_url)
+        print(f"response {response}")
 
         # Periksa status kode dari API eksternal
         if response.status_code == 200:
