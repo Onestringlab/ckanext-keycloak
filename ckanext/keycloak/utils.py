@@ -79,6 +79,7 @@ def get_cookie_authorization(cookies):
 
 
 def validate_token(accessToken):
+    log(f"-------------validate_token+++++++++")
     try:
         if not accessToken:
             return jsonify({"error": "No access token provided"}), 400
@@ -89,7 +90,7 @@ def validate_token(accessToken):
 
         # Kirim permintaan POST ke API eksternal
         response = requests.post(api_url)
-        log(f"{response}")
+        log(f"------------------------------------{response}")
 
         # Periksa status kode dari API eksternal
         if response.status_code == 200:
@@ -99,5 +100,4 @@ def validate_token(accessToken):
 
 
     except Exception as e:
-        # Tangani error yang tidak terduga
         return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
