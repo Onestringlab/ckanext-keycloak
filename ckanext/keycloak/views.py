@@ -12,7 +12,7 @@ from ckanext.keycloak.keycloak import KeycloakClient
 from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
 
-from ckanext.keycloak.utils import get_username, get_profile_by_username
+from ckanext.keycloak.utils import get_username, get_profile_by_username, validate_token
 # from ckanext.keycloak.utils import get_cookie_authorization
 
 log = logging.getLogger(__name__)
@@ -125,10 +125,10 @@ def sso_check_post():
                 return jsonify({"error": "Invalid authorization format"}), 400
             
             token_value = token.split(" ", 1)[1]
-            # log.info(f"token_value: {token_value}")
+            log.info(f"token_value: {token_value}")
             if not validate_token(token_value):
                 return jsonify({"error": "Invalid authorization format"}), 400
-                
+
             _, email = get_username(token_value)
             username = email.split('@')[0]
             fullname = email.replace('@', ' ')
