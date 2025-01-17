@@ -85,7 +85,7 @@ def validate_token(api_url, accessToken):
     print(f"api_url {api_url}")
     
     # Buat URL validasi token dengan parameter token
-    api_url_token = f"{fe_url}/auth/validate-token?token={accessToken}"
+    api_url_token = f"{api_url}/auth/validate-token?token={accessToken}"
     print(f"api_url_token {api_url_token}")
 
     # Kirim permintaan POST ke API eksternal
