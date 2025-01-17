@@ -90,9 +90,9 @@ def validate_token(accessToken):
 
         # Periksa status kode dari API eksternal
         if response.status_code == 200:
-            return True
+            return response
         else:
-            return False
+            return response
 
     except Exception as e:
         # Tangani error yang tidak terduga

@@ -129,7 +129,7 @@ def sso_check_post():
             validated = validate_token(token_value)
             log.info(f'{validated}')
             if not validated:
-                log.info(f'{validated}')
+                log.info(f'nooottt  {validated}')
                 return jsonify({"error": "Invalid authorization format"}), 400
 
             _, email = get_username(token_value)
