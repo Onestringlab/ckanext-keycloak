@@ -9,8 +9,6 @@ from ckan.logic import get_action
 from ckan.plugins import toolkit as tk
 from ckan.model import Package, User, Group, Member, meta
 
-log = logging.getLogger(__name__)
-
 def query_custom(query, params=None):
     """
     Helper function untuk menjalankan query ke database CKAN.
@@ -79,6 +77,7 @@ def get_cookie_authorization(cookies):
 
 
 def validate_token(accessToken):
+    log = logging.getLogger(__name__)
     log(f"-------------validate_token+++++++++")
     try:
         if not accessToken:
