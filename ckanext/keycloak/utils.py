@@ -1,5 +1,4 @@
 import jwt
-import logging
 import requests
 
 from flask import jsonify
@@ -77,8 +76,7 @@ def get_cookie_authorization(cookies):
 
 
 def validate_token(accessToken):
-    log = logging.getLogger()
-    log(f"-------------validate_token+++++++++")
+    print("validate_token validate_token validate_token")
     try:
         if not accessToken:
             return jsonify({"error": "No access token provided"}), 400
@@ -89,7 +87,6 @@ def validate_token(accessToken):
 
         # Kirim permintaan POST ke API eksternal
         response = requests.post(api_url)
-        log(f"------------------------------------{response}")
 
         # Periksa status kode dari API eksternal
         if response.status_code == 200:
