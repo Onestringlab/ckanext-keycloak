@@ -39,12 +39,13 @@ def get_profile_by_username(username):
                     activity_streams_email_notifications, state, plugin_extras, image_url 
                 FROM public.user 
                 WHERE name = :username
+                LIMIT 1
             '''
     result = query_custom(query, {'username': username})
 
     # Konversi hasil query menjadi daftar dictionary
-    data = [
-        {
+    row = result[0]
+    data = {
             "id": row[0],
             "name": row[1],
             "apikey": row[2],
@@ -57,8 +58,6 @@ def get_profile_by_username(username):
             "plugin_extras": row[9],
             "image_url": row[10]
         }
-        for row in result
-    ]
     return data
 
 def get_cookie_authorization(cookies):

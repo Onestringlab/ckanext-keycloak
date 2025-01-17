@@ -114,10 +114,7 @@ def sso_check_post():
         email = 'anonymous@somedomain.com'
         fullname = email.replace('@', ' ')
 
-        data = tk.request.form
         token = request.form.get('token')
-
-        # log.info(f"Data: {data}")
         # log.info(f"Token: {token}")
 
         if token:
@@ -132,7 +129,8 @@ def sso_check_post():
             _, email = get_username(token_value)
             username = email.split('@')[0]
             fullname = email.replace('@', ' ')
-            data = get_profile_by_username(username)
+            profile_username = get_profile_by_username(username)
+            log.info(f'{profile_username}')
 
             if email:
                 user_dict = {
@@ -220,7 +218,6 @@ def sso_user_delete():
             token_value = token.split(" ", 1)[1]
             _, email = get_username(token_value)
             username = email.split('@')[0]
-            profile_username = get_profile_by_username(username)
 
             context = {'user':username, 'ignore_auth': False}
             response = get_action('user_delete')(context, params)
