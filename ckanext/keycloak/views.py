@@ -117,12 +117,12 @@ def sso_check_post():
         data = tk.request.form
         token = request.form.get('token')
 
-        log.info(f"Data: {data}")
+        # log.info(f"Data: {data}")
         log.info(f"Token: {token}")
 
         if token:
             if not token.startswith("Bearer "):
-                # return jsonify({"error": "Invalid authorization format"}), 400
+                log.info(f"Not Bearer")
                 return tk.redirect_to(fe_url)
             
             token_value = token.split(" ", 1)[1]
