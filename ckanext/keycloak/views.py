@@ -161,7 +161,10 @@ def sso_check_post():
             else:
                 return tk.redirect_to(fe_url)
     except Exception as e:
+        log.error(e)
         return tk.redirect_to(fe_url)
+    return tk.redirect_to(fe_url)
+
 
 def reset_password():
     email = tk.request.form.get('user', None)
