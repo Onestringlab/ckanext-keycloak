@@ -252,5 +252,5 @@ keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POS
 keycloak.add_url_rule('/sso_login', view_func=sso_login)
 keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
 keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
-keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST','GET'])
+keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
 keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
