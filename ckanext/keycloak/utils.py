@@ -76,27 +76,28 @@ def get_cookie_authorization(cookies):
 
 
 def validate_token(fe_url, accessToken):
-    try:
-        print(f"accessToken {accessToken}")
-        if not accessToken:
-            return jsonify({"error": "No access token provided"}), 400
+    # try:
+    print(f"accessToken {accessToken}")
+    if not accessToken:
+        print(f"not accessToken")
+        return jsonify({"error": "No access token provided"}), 400
 
-        print(f"fe_url {fe_url}")
-        
-        # Buat URL validasi token dengan parameter token
-        api_url = f"{fe_url}/auth/validate-token?token={accessToken}"
-        print(f"api_url {api_url}")
+    print(f"fe_url {fe_url}")
+    
+    # Buat URL validasi token dengan parameter token
+    api_url = f"{fe_url}/auth/validate-token?token={accessToken}"
+    print(f"api_url {api_url}")
 
-        # Kirim permintaan POST ke API eksternal
-        response = requests.post(api_url)
-        print(f"response {response}")
+    # Kirim permintaan POST ke API eksternal
+    response = requests.post(api_url)
+    print(f"response {response}")
 
-        # Periksa status kode dari API eksternal
-        if response.status_code == 200:
-            return jsonify({"message": "Token is valid"}), 200
-        else:
-            return jsonify({"error": "Token validation failed"}), response.status_code
+    # Periksa status kode dari API eksternal
+    if response.status_code == 200:
+        return jsonify({"message": "Token is valid"}), 200
+    else:
+        return jsonify({"error": "Token validation failed"}), response.status_code
 
 
-    except Exception as e:
-        return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
+    # except Exception as e:
+        # return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
