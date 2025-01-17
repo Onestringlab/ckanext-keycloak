@@ -2,9 +2,12 @@ import jwt
 import requests
 
 from flask import jsonify
+
 from sqlalchemy import or_
 from ckan.logic import get_action
+from ckan.plugins import toolkit as tk
 from ckan.model import Package, User, Group, Member, meta
+
 
 def query_custom(query, params=None):
     """
@@ -71,3 +74,26 @@ def get_cookie_authorization(cookies):
         return str(authorization_value)
     else:
         return "Authorization cookie not found."
+
+
+def validate_token(accessToken):
+    try:
+        if not accessToken:
+            return jsonify({"error": "No access token provided"}), 400
+
+        fe_url = tk.config.get('ckanext.keycloak.fe_url', environ.get('CKANEXT__KEYCLOAK__FE_URL'))
+        # Buat URL validasi token dengan parameter token
+        api_url = f"{{fe_url}}/auth/validate-token?token={accessToken}"
+
+        # Kirim permintaan POST ke API eksternal
+        response = requests.post(api_url)
+
+        # Periksa status kode dari API eksternal
+        if response.status_code == 200:
+            return True
+        else:
+            return False
+
+    except Exception as e:
+        # Tangani error yang tidak terduga
+        return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500

@@ -73,56 +73,6 @@ def sso():
         return tk.abort(500, "Error getting auth url: {}".format(e))
     return tk.redirect_to(auth_url)
 
-def sso_check():
-    log.info("SSO CHECK")
-    try:
-        token = request.headers.get("Authorization") 
-        # token = request.args.get('token')
-        # cookies = request.headers.get("Cookie")
-        # token_cookies = str(get_cookie_authorization(cookies))
-        # log.info(f"{token}")
-        if token:
-            if not token.startswith("Bearer "):
-                return jsonify({"error": "Invalid authorization format"}), 400
-            token_value = token.split(" ", 1)[1]
-            _, email = get_username(token_value)
-            username = email.split('@')[0]
-            fullname = email.replace('@', ' ')
-            data = get_profile_by_username(username)
-            if data:
-                user_dict = {
-                    'name': helpers.ensure_unique_username_from_email(email),
-                    'email': email,
-                    'password': helpers.generate_password(),
-                    'fullname': fullname,
-                    'plugin_extras': ''
-                }
-                # log.info(user_dict)
-                context = {"model": model, "session": model.Session}
-                g.user_obj = helpers.process_user(user_dict)
-                g.user = g.user_obj.name
-                context['user'] = g.user
-                context['auth_user_obj'] = g.user_obj
-
-                response = tk.redirect_to(tk.url_for('user.me', context))
-                _log_user_into_ckan(response)
-                log.info("Logged in success")
-
-                # response = tk.redirect_to(ckan_url)
-                return response
-                # return jsonify({
-                #         # "cookies": cookies,
-                #         "token": token,
-                #         "data": data,
-                #         "success": True
-                #     })
-            else:
-                log.info(f"Invalid User")
-                return tk.redirect_to(server_url)
-    except Exception as e:
-        log.info(f"Exception: {e}")
-    return tk.redirect_to(server_url)
-
 def sso_login():
     try:
         data = tk.request.args
@@ -158,54 +108,6 @@ def sso_login():
     except Exception as e:
         log.error(e)
         return tk.redirect_to(tk.url_for('user.login'))
-
-def sso_check_get():
-    try:
-        email = 'anonymous@somedomain.com'
-        fullname = email.replace('@', ' ')
-
-        data = tk.request.args
-        token = request.args.get('token')
-
-        # log.info(f"Data: {data}")
-        # log.info(f"Token: {token}")
-
-        if token:
-            if not token.startswith("Bearer "):
-                return jsonify({"error": "Invalid authorization format"}), 400
-            
-            token_value = token.split(" ", 1)[1]
-            log.info(f"token_value: {token_value}")
-            _, email = get_username(token_value)
-            username = email.split('@')[0]
-            fullname = email.replace('@', ' ')
-            data = get_profile_by_username(username)
-
-            if email:
-                user_dict = {
-                    'name': helpers.ensure_unique_username_from_email(email),
-                    'email': email,
-                    'password': helpers.generate_password(),
-                    'fullname': fullname,
-                    'plugin_extras': ''
-                }
-                # log.info(user_dict)
-                context = {"model": model, "session": model.Session}
-                g.user_obj = helpers.process_user(user_dict)
-                g.user = g.user_obj.name
-                context['user'] = g.user
-                context['auth_user_obj'] = g.user_obj
-
-                response = tk.redirect_to(tk.url_for('user.me', context))
-
-                _log_user_into_ckan(response)
-                log.info("Logged in success")
-                return response
-            else:
-                return tk.redirect_to(fe_url)
-    except Exception as e:
-        log.error(e)
-        return tk.redirect_to(fe_url)
 
 def sso_check_post():
     try:
@@ -255,60 +157,6 @@ def sso_check_post():
         log.error(e)
         return tk.redirect_to(fe_url)
 
-def sso_check_post_auth():
-    try:
-        email = 'anonymous@somedomain.com'
-        fullname = email.replace('@', ' ')
-
-        # Mengambil header Authorization
-        token = request.headers.get('Authorization')
-        # log.info(f"Authorization Header: {token}")
-
-        if token:
-            if not token.startswith("Bearer "):
-                return jsonify({"error": "Invalid authorization format"}), 400
-            
-            # Ekstraksi token dari header Authorization
-            token_value = token.split(" ", 1)[1]
-            # log.info(f"token_value: {token_value}")
-            
-            # Proses validasi token (sesuaikan dengan kebutuhan Anda)
-            _, email = get_username(token_value)
-            username = email.split('@')[0]
-            fullname = email.replace('@', ' ')
-            data = get_profile_by_username(username)
-
-            if email:
-                user_dict = {
-                    'name': helpers.ensure_unique_username_from_email(email),
-                    'email': email,
-                    'password': helpers.generate_password(),
-                    'fullname': fullname,
-                    'plugin_extras': ''
-                }
-                # log.info(user_dict)
-                context = {"model": model, "session": model.Session}
-                g.user_obj = helpers.process_user(user_dict)
-                g.user = g.user_obj.name
-                context['user'] = g.user
-                context['auth_user_obj'] = g.user_obj
-
-                # Redirect ke halaman user setelah sukses login
-                response = tk.redirect_to(tk.url_for('user.me', context))
-                response.headers['Access-Control-Allow-Origin'] = '*'
-                response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
-                response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-                _log_user_into_ckan(response)
-                log.info("Logged in success")
-                return response
-            else:
-                return redirect(tk.url_for('user.login'))
-        else:
-            return jsonify({"error": "Authorization header is missing"}), 401
-    except Exception as e:
-        log.error(e)
-        return redirect(tk.url_for('user.login'))
-
 def reset_password():
     email = tk.request.form.get('user', None)
     if '@' not in email:
@@ -343,28 +191,9 @@ def sso_logout():
         log.info(f'domain_url: {domain_url}')
         cookie_value = request.cookies.get('auth_tkt')
         response.delete_cookie('auth_tkt', path='/')
-        # response.delete_cookie('auth_tkt', path='/', domain=f'{domain_url}')
         response.delete_cookie('auth_tkt', path='/', domain=f'.{domain_url}')
 
-    # response.set_cookie(
-    #     'auth_tkt',  
-    #     cookie_value,  
-    #     max_age=3600,    
-    #     path='/',        
-    #     secure=True,    
-    #     httponly=True,   
-    #     samesite='Lax'   
-    # )
-
     return response
-    # return tk.redirect_to(tk.url_for('user.login'))
-    # return tk.redirect_to(f"{logout_uri}")
-
-def sso_login_welcome():
-    return jsonify({
-                "message": "Welcome to SSO 16.3",
-                "success": True
-            })
 
 def sso_user_delete():
     try:
@@ -400,19 +229,21 @@ def sso_user_delete():
     except Exception as e:
         return jsonify({"error": f"{str(e)}"}), 400
 
-keycloak.add_url_rule('/sso', view_func=sso)
-keycloak.add_url_rule('/logout', view_func=sso_logout)
-keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
-keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
-keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST','GET'])
-
-keycloak.add_url_rule('/sso_login', view_func=sso_login)
-# keycloak.add_url_rule('/sso_check', view_func=sso_check, methods=['POST'])
-# keycloak.add_url_rule('/sso_check_get', view_func=sso_check_get)
-keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
-# keycloak.add_url_rule('/sso_check_post_auth', view_func=sso_check_post_auth, methods=['POST'])
-
-keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
+def sso_login_welcome():
+    return jsonify({
+                "message": "Welcome to SSO 17.1",
+                "success": True
+            })
 
 def get_blueprint():
     return keycloak
+
+keycloak.add_url_rule('/sso', view_func=sso)
+keycloak.add_url_rule('/logout', view_func=sso_logout)
+keycloak.add_url_rule('/reset_password', view_func=reset_password, methods=['POST','GET'])
+
+keycloak.add_url_rule('/sso_login', view_func=sso_login)
+keycloak.add_url_rule('/sso_logout', view_func=sso_logout)
+keycloak.add_url_rule('/sso_login_welcome', view_func=sso_login_welcome)
+keycloak.add_url_rule('/sso_check_post', view_func=sso_check_post, methods=['POST'])
+keycloak.add_url_rule('/sso_user_delete', view_func=sso_user_delete, methods=['POST'])
