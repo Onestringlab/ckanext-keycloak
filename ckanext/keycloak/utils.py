@@ -79,18 +79,11 @@ def validate_token(api_url, accessToken):
     try:
         if not accessToken:
             return False
-        
         api_url_token = f"{api_url}/auth/validate-token?token={accessToken}"
-        print(f"api_url_token {api_url_token}")
-
         response = requests.post(api_url_token)
-        print(f"response {response}")
-
         if response.status_code == 200:
             return True
         else:
             return False
-
-
     except Exception as e:
         return False

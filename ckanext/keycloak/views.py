@@ -118,19 +118,15 @@ def sso_check_post():
         token = request.form.get('token')
 
         # log.info(f"Data: {data}")
-        log.info(f"Token: {token}")
+        # log.info(f"Token: {token}")
 
         if token:
             if not token.startswith("Bearer "):
-                log.info(f"Not Bearer")
                 return tk.redirect_to(fe_url)
             
             token_value = token.split(" ", 1)[1]
-            log.info(f"token_value: {token_value}")
             validated = validate_token(api_url, token_value)
-            log.info(f'vaaliiiiidd{validated}')
             if not validated:
-                log.info(f'nooottt  {validated}')
                 return tk.redirect_to(fe_url)
 
             _, email = get_username(token_value)
@@ -146,7 +142,6 @@ def sso_check_post():
                     'fullname': fullname,
                     'plugin_extras': ''
                 }
-                # log.info(user_dict)
                 context = {"model": model, "session": model.Session}
                 g.user_obj = helpers.process_user(user_dict)
                 g.user = g.user_obj.name
