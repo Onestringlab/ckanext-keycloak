@@ -129,8 +129,6 @@ def sso_check_post():
             _, email = get_username(token_value)
             username = email.split('@')[0]
             fullname = email.replace('@', ' ')
-            profile_username = get_profile_by_username(username)
-            log.info(f'{profile_username}')
 
             if email:
                 user_dict = {
