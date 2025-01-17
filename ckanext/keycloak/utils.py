@@ -77,7 +77,7 @@ def get_cookie_authorization(cookies):
 
 
 def validate_token(accessToken):
-    log = logging.getLogger(__name__)
+    log = logging.getLogger()
     log(f"-------------validate_token+++++++++")
     try:
         if not accessToken:
