@@ -214,8 +214,8 @@ def sso_user_delete():
             username = email.split('@')[0]
 
             params = {'id': user_id}
-            context = {'user':username, 'ignore_auth': False}
-            # response = get_action('user_delete')(context, params)
+            context = {'user':username, 'ignore_auth': True}
+            response = get_action('user_delete')(context, params)
 
             return jsonify({"success": True, "email": "email", "username": "username"})
         else:
