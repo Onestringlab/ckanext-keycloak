@@ -209,9 +209,9 @@ def sso_user_delete():
         username = "anonymous"
         token = request.headers.get("Authorization")
         print(token)
-        # if token:
-        #     if not token.startswith("Bearer "):
-        #         return jsonify({"error": "Invalid authorization format"}), 400
+        if token:
+            if not token.startswith("Bearer "):
+                return jsonify({"error": "Invalid authorization format"}), 400
 
         #     token_value = token.split(" ", 1)[1]
         #     _, email = get_username(token_value)
@@ -220,10 +220,10 @@ def sso_user_delete():
         #     context = {'user':username, 'ignore_auth': False}
         #     response = get_action('user_delete')(context, params)
 
-        #     return jsonify({"success": True, "email": "email", "username": "username"})
-        # else:
-        #     return jsonify({"success": False, "email": email})
-        return jsonify({"success": True, "email": "email", "username": "username"})
+            return jsonify({"success": True, "email": "email", "username": "username"})
+        else:
+            return jsonify({"success": False, "email": email})
+        # return jsonify({"success": True, "email": "email", "username": "username"})
     except Exception as e:
         return jsonify({"error": f"{str(e)}"}), 400
 
