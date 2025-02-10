@@ -202,8 +202,6 @@ def sso_user_delete():
         if username:
             user_id = username
 
-        params = {'id': user_id}
-
         email = "anonymous@somedomain.com"
         username = "anonymous"
         token = request.headers.get("Authorization")
@@ -215,13 +213,13 @@ def sso_user_delete():
             _, email = get_username(token_value)
             username = email.split('@')[0]
 
+            params = {'id': user_id}
             context = {'user':username, 'ignore_auth': False}
-            response = get_action('user_delete')(context, params)
+            # response = get_action('user_delete')(context, params)
 
             return jsonify({"success": True, "email": "email", "username": "username"})
         else:
             return jsonify({"success": False, "email": email})
-        # return jsonify({"success": True, "email": "email", "username": "username"})
     except Exception as e:
         return jsonify({"error": f"{str(e)}"}), 400
 
