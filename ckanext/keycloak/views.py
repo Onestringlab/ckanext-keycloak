@@ -208,6 +208,7 @@ def sso_user_delete():
         email = "anonymous@somedomain.com"
         username = "anonymous"
         token = request.headers.get("Authorization")
+        print(token)
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
