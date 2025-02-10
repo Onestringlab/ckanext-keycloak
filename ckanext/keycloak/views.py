@@ -114,7 +114,6 @@ def sso_check_post():
         fullname = email.replace('@', ' ')
 
         token = request.form.get('token')
-        # log.info(f"Token: {token}")
 
         if token:
             if not token.startswith("Bearer "):
@@ -208,7 +207,6 @@ def sso_user_delete():
         email = "anonymous@somedomain.com"
         username = "anonymous"
         token = request.headers.get("Authorization")
-        print(token)
         if token:
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
@@ -217,8 +215,8 @@ def sso_user_delete():
             _, email = get_username(token_value)
             username = email.split('@')[0]
 
-        #     context = {'user':username, 'ignore_auth': False}
-        #     response = get_action('user_delete')(context, params)
+            context = {'user':username, 'ignore_auth': False}
+            response = get_action('user_delete')(context, params)
 
             return jsonify({"success": True, "email": "email", "username": "username"})
         else:
