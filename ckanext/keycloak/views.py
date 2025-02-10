@@ -194,21 +194,21 @@ def sso_logout():
 
 def sso_user_delete():
     try:
-        # payload = request.get_json()
-        # username = payload.get('username','')
-        # userid = payload.get('userid','')
+        payload = request.get_json()
+        username = payload.get('username','')
+        userid = payload.get('userid','')
 
-        # if userid:
-        #     user_id = userid
-        # if username:
-        #     user_id = username
+        if userid:
+            user_id = userid
+        if username:
+            user_id = username
 
-        # params = {'id': user_id}
+        params = {'id': user_id}
 
-        # email = "anonymous@somedomain.com"
-        # username = "anonymous"
-        # token = request.headers.get("Authorization")
-        # print(token)
+        email = "anonymous@somedomain.com"
+        username = "anonymous"
+        token = request.headers.get("Authorization")
+        print(token)
         # if token:
         #     if not token.startswith("Bearer "):
         #         return jsonify({"error": "Invalid authorization format"}), 400
