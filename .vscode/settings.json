@@ -1,0 +1,16 @@
+{
+    "editor.fontSize": 17,
+    // "window.zoomLevel": 0.5,
+    "workbench.colorTheme": "GitHub Dark",
+    "workbench.iconTheme": "vscode-icons",
+    "terminal.integrated.fontSize": 16,
+    "debug.console.wordWrap": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": false,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true,
+    "editor.lineHeight": 30,
+    "editor.cursorStyle": "block"
+}
