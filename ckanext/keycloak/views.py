@@ -194,35 +194,36 @@ def sso_logout():
 
 def sso_user_delete():
     try:
-        payload = request.get_json()
-        username = payload.get('username','')
-        userid = payload.get('userid','')
+        # payload = request.get_json()
+        # username = payload.get('username','')
+        # userid = payload.get('userid','')
 
-        if userid:
-            user_id = userid
-        if username:
-            user_id = username
+        # if userid:
+        #     user_id = userid
+        # if username:
+        #     user_id = username
 
-        params = {'id': user_id}
+        # params = {'id': user_id}
 
-        email = "anonymous@somedomain.com"
-        username = "anonymous"
-        token = request.headers.get("Authorization")
-        print(token)
-        if token:
-            if not token.startswith("Bearer "):
-                return jsonify({"error": "Invalid authorization format"}), 400
+        # email = "anonymous@somedomain.com"
+        # username = "anonymous"
+        # token = request.headers.get("Authorization")
+        # print(token)
+        # if token:
+        #     if not token.startswith("Bearer "):
+        #         return jsonify({"error": "Invalid authorization format"}), 400
 
-            token_value = token.split(" ", 1)[1]
-            _, email = get_username(token_value)
-            username = email.split('@')[0]
+        #     token_value = token.split(" ", 1)[1]
+        #     _, email = get_username(token_value)
+        #     username = email.split('@')[0]
 
-            context = {'user':username, 'ignore_auth': False}
-            response = get_action('user_delete')(context, params)
+        #     context = {'user':username, 'ignore_auth': False}
+        #     response = get_action('user_delete')(context, params)
 
-            return jsonify({"success": True, "email": email, "username": username})
-        else:
-            return jsonify({"success": False, "email": email})
+        #     return jsonify({"success": True, "email": "email", "username": "username"})
+        # else:
+        #     return jsonify({"success": False, "email": email})
+        return jsonify({"success": True, "email": "email", "username": "username"})
     except Exception as e:
         return jsonify({"error": f"{str(e)}"}), 400
 
