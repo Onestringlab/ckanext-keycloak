@@ -213,9 +213,9 @@ def sso_user_delete():
             if not token.startswith("Bearer "):
                 return jsonify({"error": "Invalid authorization format"}), 400
 
-        #     token_value = token.split(" ", 1)[1]
-        #     _, email = get_username(token_value)
-        #     username = email.split('@')[0]
+            token_value = token.split(" ", 1)[1]
+            _, email = get_username(token_value)
+            username = email.split('@')[0]
 
         #     context = {'user':username, 'ignore_auth': False}
         #     response = get_action('user_delete')(context, params)
