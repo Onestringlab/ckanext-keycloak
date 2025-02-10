@@ -13,7 +13,6 @@ from ckan.views.user import set_repoze_user, RequestResetView
 from flask import Blueprint,jsonify,make_response,redirect,request
 
 from ckanext.keycloak.utils import get_username, get_profile_by_username, validate_token
-# from ckanext.keycloak.utils import get_cookie_authorization
 
 log = logging.getLogger(__name__)
 
@@ -228,7 +227,7 @@ def sso_user_delete():
 
 def sso_login_welcome():
     return jsonify({
-                "message": "Welcome to SSO 17.1",
+                "message": "Welcome to SSO 10.2",
                 "success": True
             })
 

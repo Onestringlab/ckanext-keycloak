@@ -60,20 +60,6 @@ def get_profile_by_username(username):
         }
     return data
 
-def get_cookie_authorization(cookies):
-    cookies_list = cookies.split("; ")
-    for cookie in cookies_list:
-        cookie = str(cookie)
-        if isinstance(token, str):
-            if cookie.startswith("Authorization="):
-                authorization_cookie = cookie
-    if authorization_cookie:
-        authorization_value = authorization_cookie.split("=")[1]
-        return str(authorization_value)
-    else:
-        return "Authorization cookie not found."
-
-
 def validate_token(api_url, accessToken):
     try:
         if not accessToken:

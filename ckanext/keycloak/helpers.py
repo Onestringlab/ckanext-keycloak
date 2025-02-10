@@ -74,7 +74,7 @@ def _create_user(userinfo):
 def button_style():
 
     return tk.config.get('ckanext.keycloak.button_style',
-                         environ.get('CKANEXT__KEYCLOAK__BUTTON_STYLE'))
+                            environ.get('CKANEXT__KEYCLOAK__BUTTON_STYLE'))
 
 
 def enable_internal_login():
